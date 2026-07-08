@@ -13,6 +13,12 @@
 # testing
 /coverage
 
+# database lokal (PGlite)
+/.data/
+
+# artefak uji
+/e2e-fail.png
+
 # next.js
 /.next/
 /out/
