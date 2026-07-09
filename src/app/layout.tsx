@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { PwaRegister } from "@/components/pwa-register";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "MediaLab — Manajemen Tugas",
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className="min-h-full">
         {children}
         <PwaRegister />
+        <SpeedInsights />
       </body>
     </html>
   );
