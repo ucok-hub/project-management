@@ -16,17 +16,17 @@ const page = await ctx.newPage();
 page.setDefaultTimeout(15000);
 
 try {
-  // ===== A. Login lewat form asli (rudi) + tugas pribadi + alur status =====
-  console.log("A. Login form + tugas pribadi (rudi)");
+  // ===== A. Login lewat form asli (petugas1) + tugas pribadi + alur status =====
+  console.log("A. Login form + tugas pribadi (petugas1)");
   await page.goto(`${BASE}/masuk`);
-  await page.fill("#username", "rudi");
+  await page.fill("#username", "petugas1");
   await page.fill("#password", "12345");
   await page.getByRole("button", { name: /Masuk/ }).click();
   await page.waitForURL("**/beranda");
   ok("login form berhasil -> /beranda");
 
   await page.goto(`${BASE}/buat`);
-  await page.selectOption("#assigneeId", { label: "Rudi (saya sendiri)" });
+  await page.selectOption("#assigneeId", { label: "Petugas Sampling 1 (saya sendiri)" });
   await page.getByText("Ini untuk diri sendiri").waitFor();
   ok("preview 'diri sendiri' muncul");
   const judul = "Uji E2E tugas pribadi " + Date.now();
@@ -43,12 +43,12 @@ try {
   await page.locator("text=🟢").first().waitFor();
   ok("status -> Selesai (tugas pribadi langsung selesai)");
 
-  // ===== B. Permintaan: buat (joko) -> ACC hendra + wati -> jadi tugas =====
+  // ===== B. Permintaan: buat (hasan/Penyelia Sampling) -> ACC nidia + gita -> jadi tugas =====
   console.log("B. Permintaan + ACC ganda");
-  await page.goto(`${BASE}/api/dev/login/joko`);
+  await page.goto(`${BASE}/api/dev/login/hasan`);
   await page.waitForURL("**/beranda");
   await page.goto(`${BASE}/buat`);
-  await page.selectOption("#assigneeId", { label: "Bu Wati" });
+  await page.selectOption("#assigneeId", { label: "Gita Putri Ariana" });
   await page.getByText("Ini jadi Permintaan").waitFor();
   await page.getByText("Manager Teknis", { exact: false }).first().waitFor();
   ok("preview 'Permintaan' + approver Manager Teknis muncul");
@@ -60,28 +60,28 @@ try {
   const reqId = reqUrl.split("/").pop();
   ok("permintaan dibuat: " + reqId);
 
-  // Hendra (Manager Teknis) menyetujui
-  await page.goto(`${BASE}/api/dev/login/hendra`);
+  // Nidia (Manager Teknis) menyetujui
+  await page.goto(`${BASE}/api/dev/login/nidia`);
   await page.waitForURL("**/beranda");
   await page.goto(reqUrl);
   await page.getByRole("button", { name: /^Setujui$/ }).click();
   await page.getByText(/Sudah setuju/).first().waitFor();
-  ok("Hendra menyetujui (slot atasan)");
+  ok("Nidia menyetujui (slot atasan)");
   const stillMenunggu = await page.getByText("Menunggu persetujuan").first().isVisible();
-  if (!stillMenunggu) fail("seharusnya masih menunggu ACC wati");
-  ok("status masih Menunggu (wati belum ACC)");
+  if (!stillMenunggu) fail("seharusnya masih menunggu ACC gita");
+  ok("status masih Menunggu (gita belum ACC)");
 
-  // Wati (yang diminta) menyetujui -> jadi tugas
-  await page.goto(`${BASE}/api/dev/login/wati`);
+  // Gita (yang diminta) menyetujui -> jadi tugas
+  await page.goto(`${BASE}/api/dev/login/gita`);
   await page.waitForURL("**/beranda");
   await page.goto(reqUrl);
   await page.getByRole("button", { name: /^Setujui$/ }).click();
   await page.getByText("Disetujui", { exact: false }).first().waitFor();
-  ok("Wati menyetujui -> Permintaan Disetujui");
+  ok("Gita menyetujui -> Permintaan Disetujui");
 
   await page.goto(`${BASE}/tugas-saya`);
   await page.getByText(jreq).first().waitFor();
-  ok("Tugas otomatis muncul di 'Tugas Saya' Wati");
+  ok("Tugas otomatis muncul di 'Tugas Saya' Gita");
 
   console.log(`\nSEMUA LOLOS (${pass} pemeriksaan)`);
 } catch (e) {

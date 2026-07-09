@@ -1,6 +1,6 @@
-# MediaLab — Manajemen Tugas
+# Delta Indonesia Laboratory — Manajemen Tugas
 
-Aplikasi manajemen tugas internal untuk perusahaan lab pengujian lingkungan (±15 orang).
+Aplikasi manajemen tugas internal untuk Delta Indonesia Laboratory (DIL), lab pengujian lingkungan.
 Rasa "Jira" tapi **dipangkas habis** agar sangat mudah dipakai. Web + ramah HP (PWA), Bahasa Indonesia.
 
 ---
@@ -19,18 +19,25 @@ Rasa "Jira" tapi **dipangkas habis** agar sangat mudah dipakai. Web + ramah HP (
 - **Pantauan (Executive Overview)** — Dirut melihat seluruh perusahaan; atasan lain melihat timnya.
 - **Panel Admin** — kelola pengguna, jabatan, reset password.
 
-## 🏢 Struktur jabatan (seed placeholder)
+## 🏢 Struktur jabatan (data asli Delta Indonesia Laboratory)
 
 ```
-Direktur Utama
+Direktur Utama (Joko Baroto)
+├── HRGA · Finance & Accounting              [gabungan peran "Manager Administrasi"]
 ├── Direktur Operasional
 │   └── Manager Teknis
-│       ├── SPV Sampling ── Staff Sampling
-│       └── SPV Analis   ── Staff Analis
+│       ├── Penyelia Sampling ── Petugas Sampling (2 orang)
+│       ├── Penyelia Lab      ── Analis (2 orang)
+│       ├── Purchasing
+│       └── Tenaga Ahli Elektrical & Sensor
 └── Direktur Marketing & Mutu
     ├── Manager Mutu ── Konsultan, Admin Mutu
-    └── Manager Marketing ── Sales
+    └── Manager Marketing ── Admin Sales
 ```
+
+> Catatan: "Manager Administrasi" pada struktur asli dijabat orang yang sama dengan Direktur
+> Utama — karena sistem ini satu akun = satu jabatan, HRGA & Finance ditempatkan langsung di
+> bawah Direktur Utama (efeknya sama).
 
 ---
 
@@ -46,26 +53,35 @@ Direktur Utama
 
 Koneksi DB otomatis: bila `DATABASE_URL` diisi → pakai Postgres/Supabase; bila kosong → PGlite lokal.
 
+Semua jam ditampilkan sebagai **WIB (Asia/Jakarta, UTC+7)** apa pun zona waktu server
+(lihat `src/lib/timezone.ts`) — penting karena Vercel menjalankan fungsi di UTC.
+
+Fungsi Vercel di-set jalan di region **`bom1` (Mumbai)** — sedekat mungkin dengan database
+Supabase — supaya tiap query DB tidak menempuh latensi lintas benua (lihat `vercel.json` dan
+`export const preferredRegion` di `src/app/layout.tsx`).
+
 ---
 
 ## 🚀 Menjalankan (dev lokal)
 
 ```bash
 npm install
-npm run db:setup     # buat tabel + isi data contoh (15 user placeholder)
+npm run db:setup     # buat tabel + isi data contoh (19 personil asli)
 npm run dev          # buka http://localhost:3000
 ```
 
-**Akun demo** (password semua: `12345`):
+**Akun contoh** (password semua: `12345`, ganti sebelum dipakai sungguhan):
 
 | Username | Peran |
 |---|---|
-| `bagus` | Direktur Utama (admin) |
-| `hendra` | Manager Teknis |
-| `joko` | SPV Sampling |
-| `rudi` | Staff Sampling |
-| `wati` | SPV Analis |
-| `maya` | Admin Mutu (admin) |
+| `joko` | Direktur Utama (admin) |
+| `nidia` | Manager Teknis |
+| `hasan` | Penyelia Sampling |
+| `gita` | Penyelia Lab |
+| `petugas1` | Petugas Sampling |
+| `akilah` | Admin Mutu (admin) |
+
+Daftar lengkap 19 personil ada di `src/lib/org.ts`.
 
 > Saat pengembangan Anda juga bisa berpindah peran cepat via `/api/dev/login/<username>`
 > (otomatis dinonaktifkan di produksi).

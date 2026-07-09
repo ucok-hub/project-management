@@ -1,14 +1,17 @@
 @AGENTS.md
 
-# MediaLab — Manajemen Tugas
+# Delta Indonesia Laboratory (DIL) — Manajemen Tugas
 
-Aplikasi tugas internal lab lingkungan (±15 orang). Sangat sederhana untuk pengguna literasi
-digital rendah. Bahasa Indonesia, mobile-first (PWA). Lihat `README.md` untuk gambaran lengkap.
+Aplikasi tugas internal DIL, lab pengujian lingkungan (±19 orang). Sangat sederhana untuk pengguna
+literasi digital rendah. Bahasa Indonesia, mobile-first (PWA). Lihat `README.md` untuk gambaran lengkap.
 
 ## Stack
 Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · Drizzle ORM.
 DB: PGlite lokal (folder `.data/pglite`) bila `DATABASE_URL` kosong; Postgres/Supabase bila diisi.
 Auth: username+password, sesi JWT (`jose`) di cookie `sesi`, hash `bcryptjs`. Bukan Supabase Auth.
+Hosting: Vercel region `bom1` (Mumbai) — sengaja co-located dengan Supabase untuk latensi rendah;
+jangan pindahkan region tanpa memindahkan DB juga. Semua jam ditampilkan WIB via `src/lib/timezone.ts`
+(server berjalan di UTC — JANGAN pakai `new Date()`/`date-fns` mentah untuk perbandingan "hari ini").
 
 ## Aturan bisnis inti (JANGAN ubah tanpa update tes)
 - `src/lib/permissions.ts` — hierarki jabatan & aturan "+1" (fungsi murni).

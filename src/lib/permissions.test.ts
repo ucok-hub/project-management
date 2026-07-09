@@ -73,9 +73,11 @@ test("getDescendantIds: bawahan Direktur Operasional", () => {
   const ds = getDescendantIds(map, "dir_ops").sort();
   assert.deepEqual(ds, [
     "manager_teknis",
+    "purchasing",
     "spv_analis",
     "spv_sampling",
     "staff_analis",
     "staff_sampling",
+    "tenaga_ahli",
   ]);
 });

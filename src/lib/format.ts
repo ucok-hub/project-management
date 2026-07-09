@@ -1,13 +1,12 @@
-import {
-  format,
-  isToday,
-  isTomorrow,
-  isYesterday,
-  isPast,
-  isThisYear,
-  formatDistanceToNow,
-} from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import { id } from "date-fns/locale";
+import {
+  toJakartaWallClock,
+  isTodayJakarta,
+  isTomorrowJakarta,
+  isYesterdayJakarta,
+  isThisYearJakarta,
+} from "@/lib/timezone";
 
 export type TaskStatus = "belum" | "dikerjakan" | "menunggu_acc" | "selesai";
 
@@ -54,28 +53,30 @@ export const REQUEST_STATUS: Record<RequestStatus, { label: string; badge: strin
   dibatalkan: { label: "Dibatalkan", badge: "bg-slate-100 text-slate-600 border-slate-200" },
 };
 
-/** Tanggal batas waktu dalam bahasa manusia. */
+/** Tanggal batas waktu dalam bahasa manusia (selalu menurut WIB). */
 export function formatDeadline(date: Date | null | undefined): string {
   if (!date) return "Tanpa batas waktu";
-  if (isToday(date)) return "Hari ini";
-  if (isTomorrow(date)) return "Besok";
-  if (isYesterday(date)) return "Kemarin";
-  return format(date, isThisYear(date) ? "EEE, d MMM" : "d MMM yyyy", { locale: id });
+  if (isTodayJakarta(date)) return "Hari ini";
+  if (isTomorrowJakarta(date)) return "Besok";
+  if (isYesterdayJakarta(date)) return "Kemarin";
+  return format(toJakartaWallClock(date), isThisYearJakarta(date) ? "EEE, d MMM" : "d MMM yyyy", {
+    locale: id,
+  });
 }
 
-/** Apakah tugas melewati batas waktu (dan belum selesai)? */
+/** Apakah tugas melewati batas waktu (dan belum selesai)? Dinilai menurut kalender WIB. */
 export function isOverdue(date: Date | null | undefined, status: TaskStatus): boolean {
   if (!date || status === "selesai") return false;
-  return isPast(date) && !isToday(date);
+  return date.getTime() < Date.now() && !isTodayJakarta(date);
 }
 
 export function formatDateTime(date: Date): string {
-  return format(date, "d MMM yyyy, HH:mm", { locale: id });
+  return format(toJakartaWallClock(date), "d MMM yyyy, HH:mm", { locale: id }) + " WIB";
 }
 
 export function formatDateInput(date: Date | null | undefined): string {
   if (!date) return "";
-  return format(date, "yyyy-MM-dd");
+  return format(toJakartaWallClock(date), "yyyy-MM-dd");
 }
 
 export function timeAgo(date: Date): string {

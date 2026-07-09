@@ -20,7 +20,7 @@ export function LoginForm() {
           name="username"
           autoComplete="username"
           autoCapitalize="none"
-          placeholder="mis. bagus"
+          placeholder="Username Anda"
           required
           autoFocus
         />

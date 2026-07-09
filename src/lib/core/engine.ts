@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { tasks, requests, requestApprovals } from "../../db/schema";
 import { buildPositionMap, classifyAssignment, computeApprovers } from "../permissions";
 import { newId } from "../utils";
@@ -54,18 +54,20 @@ export async function createAssignment(db: DB, input: CreateInput): Promise<Crea
     status: "menunggu",
   });
 
-  const atasanPositionIds: string[] = [];
-  for (const slot of slots) {
-    await db.insert(requestApprovals).values({
+  const atasanPositionIds = slots
+    .filter((s) => s.role === "atasan")
+    .map((s) => s.positionId);
+
+  await db.insert(requestApprovals).values(
+    slots.map((slot) => ({
       id: newId(),
       requestId,
       role: slot.role,
       positionId: slot.role === "atasan" ? slot.positionId : null,
       userId: slot.role === "diminta" ? target.id : null,
-      decision: "menunggu",
-    });
-    if (slot.role === "atasan") atasanPositionIds.push(slot.positionId);
-  }
+      decision: "menunggu" as const,
+    })),
+  );
   return { kind: "permintaan", requestId, atasanPositionIds };
 }
 
@@ -97,12 +99,10 @@ export async function decideRequestCore(
   if (mySlots.length === 0) return { outcome: "noop" };
 
   const now = new Date();
-  for (const slot of mySlots) {
-    await db
-      .update(requestApprovals)
-      .set({ decision, decidedById: actor.id, decidedAt: now })
-      .where(eq(requestApprovals.id, slot.id));
-  }
+  await db
+    .update(requestApprovals)
+    .set({ decision, decidedById: actor.id, decidedAt: now })
+    .where(inArray(requestApprovals.id, mySlots.map((s) => s.id)));
 
   const fresh = await db.query.requests.findFirst({
     where: eq(requests.id, requestId),

@@ -1,6 +1,11 @@
 /**
- * Definisi statis hierarki jabatan MediaLab.
+ * Definisi statis hierarki jabatan Delta Indonesia Laboratory (DIL).
  * Dipakai untuk seeding database dan sebagai acuan struktur.
+ *
+ * Catatan: "Manager Administrasi" pada struktur organisasi asli dijabat oleh
+ * orang yang sama dengan Direktur Utama (Joko Baroto). Karena sistem ini
+ * mengikat satu akun ke satu jabatan, HRGA & Finance/Accounting ditempatkan
+ * langsung di bawah Direktur Utama (efeknya sama — beliau yang membawahi).
  */
 
 export type Division = "eksekutif" | "operasional" | "marketing_mutu";
@@ -23,19 +28,30 @@ export const SEED_POSITIONS: SeedPosition[] = [
   { id: "dirut", name: "Direktur Utama", parentId: null, division: "eksekutif", sort: 1 },
   { id: "dir_ops", name: "Direktur Operasional", parentId: "dirut", division: "operasional", sort: 2 },
   { id: "dir_mm", name: "Direktur Marketing & Mutu", parentId: "dirut", division: "marketing_mutu", sort: 3 },
-  { id: "manager_teknis", name: "Manager Teknis", parentId: "dir_ops", division: "operasional", sort: 4 },
-  { id: "spv_sampling", name: "SPV Sampling", parentId: "manager_teknis", division: "operasional", sort: 5 },
-  { id: "spv_analis", name: "SPV Analis", parentId: "manager_teknis", division: "operasional", sort: 6 },
-  { id: "staff_sampling", name: "Staff Sampling", parentId: "spv_sampling", division: "operasional", sort: 7 },
-  { id: "staff_analis", name: "Staff Analis", parentId: "spv_analis", division: "operasional", sort: 8 },
-  { id: "manager_mutu", name: "Manager Mutu", parentId: "dir_mm", division: "marketing_mutu", sort: 9 },
-  { id: "konsultan", name: "Konsultan", parentId: "manager_mutu", division: "marketing_mutu", sort: 10 },
-  { id: "admin_mutu", name: "Admin Mutu", parentId: "manager_mutu", division: "marketing_mutu", sort: 11 },
-  { id: "manager_marketing", name: "Manager Marketing", parentId: "dir_mm", division: "marketing_mutu", sort: 12 },
-  { id: "sales", name: "Sales", parentId: "manager_marketing", division: "marketing_mutu", sort: 13 },
+  { id: "hrga", name: "HRGA", parentId: "dirut", division: "eksekutif", sort: 4 },
+  { id: "finance", name: "Finance & Accounting", parentId: "dirut", division: "eksekutif", sort: 5 },
+
+  { id: "manager_teknis", name: "Manager Teknis", parentId: "dir_ops", division: "operasional", sort: 6 },
+  { id: "spv_sampling", name: "Penyelia Sampling", parentId: "manager_teknis", division: "operasional", sort: 7 },
+  { id: "spv_analis", name: "Penyelia Lab", parentId: "manager_teknis", division: "operasional", sort: 8 },
+  { id: "purchasing", name: "Purchasing", parentId: "manager_teknis", division: "operasional", sort: 9 },
+  {
+    id: "tenaga_ahli",
+    name: "Tenaga Ahli Elektrical & Sensor",
+    parentId: "manager_teknis",
+    division: "operasional",
+    sort: 10,
+  },
+  { id: "staff_sampling", name: "Petugas Sampling", parentId: "spv_sampling", division: "operasional", sort: 11 },
+  { id: "staff_analis", name: "Analis", parentId: "spv_analis", division: "operasional", sort: 12 },
+
+  { id: "manager_mutu", name: "Manager Mutu", parentId: "dir_mm", division: "marketing_mutu", sort: 13 },
+  { id: "konsultan", name: "Konsultan", parentId: "manager_mutu", division: "marketing_mutu", sort: 14 },
+  { id: "admin_mutu", name: "Admin Mutu", parentId: "manager_mutu", division: "marketing_mutu", sort: 15 },
+  { id: "manager_marketing", name: "Manager Marketing", parentId: "dir_mm", division: "marketing_mutu", sort: 16 },
+  { id: "sales", name: "Admin Sales", parentId: "manager_marketing", division: "marketing_mutu", sort: 17 },
 ];
 
-/** Data user placeholder (nama fiktif) — 15 orang, ada posisi berisi lebih dari 1 orang. */
 export type SeedUser = {
   username: string;
   name: string;
@@ -43,22 +59,30 @@ export type SeedUser = {
   isAdmin?: boolean;
 };
 
+/** Personil asli Delta Indonesia Laboratory (dari struktur organisasi resmi). */
 export const SEED_USERS: SeedUser[] = [
-  { username: "bagus", name: "Pak Bagus", positionId: "dirut", isAdmin: true },
-  { username: "doni", name: "Pak Doni", positionId: "dir_ops" },
-  { username: "rina", name: "Bu Rina", positionId: "dir_mm" },
-  { username: "hendra", name: "Pak Hendra", positionId: "manager_teknis" },
-  { username: "joko", name: "Pak Joko", positionId: "spv_sampling" },
-  { username: "wati", name: "Bu Wati", positionId: "spv_analis" },
-  { username: "rudi", name: "Rudi", positionId: "staff_sampling" },
-  { username: "agus", name: "Agus", positionId: "staff_sampling" },
-  { username: "sari", name: "Sari", positionId: "staff_analis" },
-  { username: "dewi", name: "Dewi", positionId: "staff_analis" },
-  { username: "lina", name: "Bu Lina", positionId: "manager_mutu" },
-  { username: "eko", name: "Pak Eko", positionId: "konsultan" },
-  { username: "maya", name: "Bu Maya", positionId: "admin_mutu", isAdmin: true },
-  { username: "tono", name: "Pak Tono", positionId: "manager_marketing" },
-  { username: "bayu", name: "Pak Bayu", positionId: "sales" },
+  { username: "joko", name: "Joko Baroto", positionId: "dirut", isAdmin: true },
+  { username: "untung", name: "Untung Suprihadi", positionId: "dir_mm" },
+  { username: "nanda", name: "Muhammad Nanda Rizky", positionId: "dir_ops" },
+  { username: "hafidz", name: "Muhammad Hafidz", positionId: "hrga" },
+  { username: "agus", name: "Agus Susila", positionId: "finance" },
+
+  { username: "nidia", name: "Nidia Hendra Utami", positionId: "manager_teknis" },
+  { username: "hasan", name: "M Hasan Ismail", positionId: "spv_sampling" },
+  { username: "gita", name: "Gita Putri Ariana", positionId: "spv_analis" },
+  { username: "ludfi", name: "Ludfi Rahmad I", positionId: "purchasing" },
+  { username: "arief", name: "Arief Jainul", positionId: "tenaga_ahli" },
+  // PDF hanya menulis "2 Orang" tanpa nama — beri placeholder angka, ganti via panel Admin.
+  { username: "petugas1", name: "Petugas Sampling 1", positionId: "staff_sampling" },
+  { username: "petugas2", name: "Petugas Sampling 2", positionId: "staff_sampling" },
+  { username: "analis1", name: "Analis 1", positionId: "staff_analis" },
+  { username: "analis2", name: "Analis 2", positionId: "staff_analis" },
+
+  { username: "novita", name: "Novita Putridiana", positionId: "manager_mutu" },
+  { username: "nimal", name: "Ni'Mal Fatah T", positionId: "konsultan" },
+  { username: "akilah", name: "Akilah Zahra H", positionId: "admin_mutu", isAdmin: true },
+  { username: "topan", name: "Topan Dwi Putra", positionId: "manager_marketing" },
+  { username: "kartika", name: "Kartika Diah Ayunda", positionId: "sales" },
 ];
 
 /** Password default semua akun seed (untuk demo). Admin dapat menggantinya. */

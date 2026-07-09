@@ -51,7 +51,7 @@ export default async function LainnyaPage() {
         </SubmitButton>
       </form>
 
-      <p className="text-center text-xs text-slate-400">MediaLab · Manajemen Tugas</p>
+      <p className="text-center text-xs text-slate-400">Delta Indonesia Laboratory · Manajemen Tugas</p>
     </div>
   );
 }

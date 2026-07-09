@@ -1,7 +1,7 @@
 {
-  "name": "MediaLab — Manajemen Tugas",
-  "short_name": "MediaLab",
-  "description": "Aplikasi tugas internal MediaLab. Sederhana & mudah dipakai.",
+  "name": "Delta Indonesia Laboratory — Manajemen Tugas",
+  "short_name": "DIL",
+  "description": "Aplikasi tugas internal Delta Indonesia Laboratory. Sederhana & mudah dipakai.",
   "start_url": "/beranda",
   "scope": "/",
   "display": "standalone",

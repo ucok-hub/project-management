@@ -10,15 +10,9 @@ import { getAllPositions } from "@/lib/data/positions";
 import { getUserById, getUsersInPositions } from "@/lib/data/users";
 import { createAssignment } from "@/lib/core/engine";
 import { notify, notifyMany } from "@/lib/notify";
+import { parseJakartaDate } from "@/lib/timezone";
 
 export type CreateState = { error?: string };
-
-function parseDeadline(value: string): Date | null {
-  const s = value.trim();
-  if (!s) return null;
-  const d = new Date(`${s}T17:00:00`);
-  return isNaN(d.getTime()) ? null : d;
-}
 
 function refreshTaskViews() {
   revalidatePath("/beranda");
@@ -36,7 +30,7 @@ export async function createTaskOrRequest(
   const assigneeId = String(formData.get("assigneeId") ?? "");
   const title = String(formData.get("title") ?? "").trim();
   const note = String(formData.get("note") ?? "").trim() || null;
-  const deadline = parseDeadline(String(formData.get("deadline") ?? ""));
+  const deadline = parseJakartaDate(String(formData.get("deadline") ?? ""));
 
   if (!assigneeId) return { error: "Pilih dulu untuk siapa tugas ini." };
   if (!title) return { error: "Judul tugas belum diisi." };
@@ -68,13 +62,15 @@ export async function createTaskOrRequest(
     refreshTaskViews();
     redirectTo = `/tugas/${result.taskId}?baru=1`;
   } else {
-    await notify(target.id, {
-      type: "permintaan_baru",
-      title: "Ada permintaan tugas untuk Anda",
-      body: `${me.name} meminta: ${title}`,
-      link: `/permintaan/${result.requestId}`,
-    });
-    const atasanUsers = await getUsersInPositions(result.atasanPositionIds);
+    const [, atasanUsers] = await Promise.all([
+      notify(target.id, {
+        type: "permintaan_baru",
+        title: "Ada permintaan tugas untuk Anda",
+        body: `${me.name} meminta: ${title}`,
+        link: `/permintaan/${result.requestId}`,
+      }),
+      getUsersInPositions(result.atasanPositionIds),
+    ]);
     await notifyMany(
       atasanUsers.map((u) => u.id).filter((uid) => uid !== me.id),
       {

@@ -14,7 +14,7 @@ export default async function MasukPage() {
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-600 text-white shadow-lg shadow-teal-600/30">
             <FlaskConical className="h-9 w-9" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">MediaLab</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Delta Indonesia Laboratory</h1>
           <p className="mt-1 text-sm text-slate-500">
             Manajemen Tugas — masuk untuk melihat tugas Anda
           </p>
@@ -23,10 +23,6 @@ export default async function MasukPage() {
         <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
           <LoginForm />
         </div>
-
-        <p className="mt-6 text-center text-xs text-slate-400">
-          Contoh akun untuk mencoba: <b>bagus</b> (Dirut) · password <b>12345</b>
-        </p>
       </div>
     </main>
   );

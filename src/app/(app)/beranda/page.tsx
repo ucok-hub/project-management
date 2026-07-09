@@ -13,11 +13,14 @@ import { TaskCard } from "@/components/task-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
 import { TASK_STATUS } from "@/lib/format";
+import { toJakartaWallClock } from "@/lib/timezone";
 
 export default async function BerandaPage() {
   const user = await requireUser();
-  const myTasks = await getTasksAssignedTo(user.id);
-  const counts = await getInboxCounts(user);
+  const [myTasks, counts] = await Promise.all([
+    getTasksAssignedTo(user.id),
+    getInboxCounts(user),
+  ]);
   const summary = summarizeByStatus(myTasks);
 
   const active = sortTasksForDisplay(
@@ -33,7 +36,7 @@ export default async function BerandaPage() {
   return (
     <div className="space-y-5 pb-4">
       <p className="text-sm capitalize text-slate-500">
-        {format(new Date(), "EEEE, d MMMM yyyy", { locale: id })}
+        {format(toJakartaWallClock(new Date()), "EEEE, d MMMM yyyy", { locale: id })}
       </p>
 
       {/* Ringkasan tugas saya */}

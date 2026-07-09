@@ -3,12 +3,12 @@ import "./globals.css";
 import { PwaRegister } from "@/components/pwa-register";
 
 export const metadata: Metadata = {
-  title: "MediaLab — Manajemen Tugas",
-  description: "Aplikasi tugas internal MediaLab. Sederhana, jelas, mudah dipakai.",
-  applicationName: "MediaLab Tugas",
+  title: "DIL — Manajemen Tugas",
+  description: "Aplikasi tugas internal Delta Indonesia Laboratory. Sederhana, jelas, mudah dipakai.",
+  applicationName: "DIL Tugas",
   manifest: "/manifest.webmanifest",
   icons: { icon: "/icon.svg", apple: "/icon.svg" },
-  appleWebApp: { capable: true, statusBarStyle: "default", title: "MediaLab Tugas" },
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "DIL Tugas" },
 };
 
 export const viewport: Viewport = {
@@ -17,6 +17,11 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
 };
+
+// Jalankan fungsi Vercel sedekat mungkin dengan database Supabase (Mumbai) —
+// tiap query DB jadi ~10-30ms alih-alih ~250ms+ lintas benua. Ini pengaruh
+// terbesar terhadap kecepatan aplikasi.
+export const preferredRegion = "bom1";
 
 export default function RootLayout({
   children,

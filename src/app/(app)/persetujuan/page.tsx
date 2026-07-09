@@ -9,9 +9,11 @@ import { EmptyState } from "@/components/ui/empty-state";
 export default async function PersetujuanPage() {
   const me = await requireUser();
 
-  const given = await getTasksGivenBy(me.id);
+  const [given, requests] = await Promise.all([
+    getTasksGivenBy(me.id),
+    getRequestsNeedingUser(me),
+  ]);
   const awaiting = sortTasksForDisplay(given.filter((t) => t.status === "menunggu_acc"));
-  const requests = await getRequestsNeedingUser(me);
 
   const empty = awaiting.length === 0 && requests.length === 0;
 
