@@ -28,8 +28,7 @@ Direktur Utama (Joko Baroto)
 │   └── Manager Teknis
 │       ├── Penyelia Sampling ── Petugas Sampling (2 orang)
 │       ├── Penyelia Lab      ── Analis (2 orang)
-│       ├── Purchasing
-│       └── Tenaga Ahli Elektrical & Sensor
+│       └── Purchasing
 └── Direktur Marketing & Mutu
     ├── Manager Mutu ── Konsultan, Admin Mutu
     └── Manager Marketing ── Admin Sales

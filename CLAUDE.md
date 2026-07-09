@@ -2,7 +2,7 @@
 
 # Delta Indonesia Laboratory (DIL) — Manajemen Tugas
 
-Aplikasi tugas internal DIL, lab pengujian lingkungan (±19 orang). Sangat sederhana untuk pengguna
+Aplikasi tugas internal DIL, lab pengujian lingkungan (±18 orang). Sangat sederhana untuk pengguna
 literasi digital rendah. Bahasa Indonesia, mobile-first (PWA). Lihat `README.md` untuk gambaran lengkap.
 
 ## Stack

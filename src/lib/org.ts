@@ -35,13 +35,6 @@ export const SEED_POSITIONS: SeedPosition[] = [
   { id: "spv_sampling", name: "Penyelia Sampling", parentId: "manager_teknis", division: "operasional", sort: 7 },
   { id: "spv_analis", name: "Penyelia Lab", parentId: "manager_teknis", division: "operasional", sort: 8 },
   { id: "purchasing", name: "Purchasing", parentId: "manager_teknis", division: "operasional", sort: 9 },
-  {
-    id: "tenaga_ahli",
-    name: "Tenaga Ahli Elektrical & Sensor",
-    parentId: "manager_teknis",
-    division: "operasional",
-    sort: 10,
-  },
   { id: "staff_sampling", name: "Petugas Sampling", parentId: "spv_sampling", division: "operasional", sort: 11 },
   { id: "staff_analis", name: "Analis", parentId: "spv_analis", division: "operasional", sort: 12 },
 
@@ -71,7 +64,6 @@ export const SEED_USERS: SeedUser[] = [
   { username: "hasan", name: "M Hasan Ismail", positionId: "spv_sampling" },
   { username: "gita", name: "Gita Putri Ariana", positionId: "spv_analis" },
   { username: "ludfi", name: "Ludfi Rahmad I", positionId: "purchasing" },
-  { username: "arief", name: "Arief Jainul", positionId: "tenaga_ahli" },
   // PDF hanya menulis "2 Orang" tanpa nama — beri placeholder angka, ganti via panel Admin.
   { username: "petugas1", name: "Petugas Sampling 1", positionId: "staff_sampling" },
   { username: "petugas2", name: "Petugas Sampling 2", positionId: "staff_sampling" },

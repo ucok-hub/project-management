@@ -78,6 +78,5 @@ test("getDescendantIds: bawahan Direktur Operasional", () => {
     "spv_sampling",
     "staff_analis",
     "staff_sampling",
-    "tenaga_ahli",
   ]);
 });
