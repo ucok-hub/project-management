@@ -23,7 +23,7 @@ export default async function BuatPage() {
   }));
 
   return (
-    <div className="space-y-4 pb-4">
+    <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-xl">
       <div>
         <h1 className="text-xl font-bold text-slate-900">Buat Tugas</h1>
         <p className="text-sm text-slate-500">

@@ -25,6 +25,13 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* Desktop (sidebar, bukan navigasi bawah) tak perlu ruang cadangan sebesar itu. */
+@media (min-width: 1024px) {
+  .pb-safe {
+    padding-bottom: 2.5rem;
+  }
+}
+
 /* Hilangkan panah spinner pada input angka. */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

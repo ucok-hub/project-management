@@ -52,7 +52,7 @@ export default async function RequestDetailPage({
       : undefined;
 
   return (
-    <div className="space-y-4 pb-4">
+    <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-xl">
       <BackLink href="/permintaan" label="Papan Permintaan" />
 
       {baru === "1" && (

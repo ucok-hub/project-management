@@ -10,7 +10,7 @@ export default async function AdminBaruPage() {
     .map((p) => ({ id: p.id, name: p.name }));
 
   return (
-    <div className="space-y-4 pb-4">
+    <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-xl">
       <BackLink href="/admin" label="Kelola Pengguna" />
       <h1 className="text-xl font-bold text-slate-900">Tambah Pengguna</h1>
       <UserCreateForm positions={positions} />

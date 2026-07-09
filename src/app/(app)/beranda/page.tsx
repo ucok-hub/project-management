@@ -12,6 +12,7 @@ import {
 import { TaskCard } from "@/components/task-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
+import { CardGrid } from "@/components/ui/card-grid";
 import { TASK_STATUS } from "@/lib/format";
 import { toJakartaWallClock } from "@/lib/timezone";
 
@@ -96,11 +97,11 @@ export default async function BerandaPage() {
             }
           />
         ) : (
-          <div className="space-y-3">
+          <CardGrid>
             {active.map((t) => (
               <TaskCard key={t.id} task={t} perspective="assignee" />
             ))}
-          </div>
+          </CardGrid>
         )}
       </section>
     </div>

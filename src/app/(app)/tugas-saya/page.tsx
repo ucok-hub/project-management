@@ -6,6 +6,7 @@ import { TaskCard } from "@/components/task-card";
 import { Tabs } from "@/components/ui/tabs";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
+import { CardGrid } from "@/components/ui/card-grid";
 
 export default async function TugasSayaPage({
   searchParams,
@@ -50,11 +51,11 @@ export default async function TugasSayaPage({
           }
         />
       ) : (
-        <div className="space-y-3">
+        <CardGrid>
           {list.map((t) => (
             <TaskCard key={t.id} task={t} perspective="assignee" />
           ))}
-        </div>
+        </CardGrid>
       )}
     </div>
   );

@@ -26,7 +26,7 @@ export default async function LainnyaPage() {
   ];
 
   return (
-    <div className="space-y-5 pb-4">
+    <div className="space-y-5 pb-4 lg:mx-auto lg:max-w-xl">
       <h1 className="text-xl font-bold text-slate-900">Lainnya</h1>
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">

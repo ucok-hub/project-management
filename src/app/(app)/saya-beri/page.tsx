@@ -6,6 +6,7 @@ import { TaskCard } from "@/components/task-card";
 import { Tabs } from "@/components/ui/tabs";
 import { EmptyState } from "@/components/ui/empty-state";
 import { buttonClass } from "@/components/ui/button";
+import { CardGrid } from "@/components/ui/card-grid";
 
 export default async function SayaBeriPage({
   searchParams,
@@ -49,11 +50,11 @@ export default async function SayaBeriPage({
           }
         />
       ) : (
-        <div className="space-y-3">
+        <CardGrid>
           {list.map((t) => (
             <TaskCard key={t.id} task={t} perspective="giver" />
           ))}
-        </div>
+        </CardGrid>
       )}
     </div>
   );

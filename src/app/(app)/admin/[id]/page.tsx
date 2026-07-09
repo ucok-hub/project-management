@@ -18,7 +18,7 @@ export default async function AdminEditPage({ params }: { params: Promise<{ id: 
   const isSelf = user.id === me.id;
 
   return (
-    <div className="space-y-4 pb-4">
+    <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-xl">
       <BackLink href="/admin" label="Kelola Pengguna" />
 
       <div className="flex items-center gap-3">

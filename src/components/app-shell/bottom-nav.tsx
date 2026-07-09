@@ -17,7 +17,7 @@ export function BottomNav({ pendingApprovals }: { pendingApprovals: number }) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-30 w-full max-w-lg -translate-x-1/2 border-t border-slate-200 bg-white bottom-safe">
+    <nav className="fixed bottom-0 left-1/2 z-30 w-full max-w-lg -translate-x-1/2 border-t border-slate-200 bg-white bottom-safe lg:hidden">
       <ul className="flex items-stretch justify-around px-1 py-1.5">
         {items.map(({ href, label, Icon, center, badge }) => {
           const active = href === "/beranda" ? pathname === href : pathname.startsWith(href);

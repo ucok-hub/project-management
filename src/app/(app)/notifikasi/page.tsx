@@ -25,7 +25,7 @@ export default async function NotifikasiPage() {
   const hasUnread = items.some((n) => !n.isRead);
 
   return (
-    <div className="space-y-4 pb-4">
+    <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-2xl">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-slate-900">Notifikasi</h1>
         {hasUnread && (

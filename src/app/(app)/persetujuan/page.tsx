@@ -5,6 +5,7 @@ import { getRequestsNeedingUser } from "@/lib/data/requests";
 import { TaskCard } from "@/components/task-card";
 import { RequestCard } from "@/components/request-card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { CardGrid } from "@/components/ui/card-grid";
 
 export default async function PersetujuanPage() {
   const me = await requireUser();
@@ -37,9 +38,11 @@ export default async function PersetujuanPage() {
           <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500">
             Permintaan ({requests.length})
           </h2>
-          {requests.map((r) => (
-            <RequestCard key={r.id} req={r} needsMe />
-          ))}
+          <CardGrid>
+            {requests.map((r) => (
+              <RequestCard key={r.id} req={r} needsMe />
+            ))}
+          </CardGrid>
         </section>
       )}
 
@@ -48,9 +51,11 @@ export default async function PersetujuanPage() {
           <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500">
             Tugas menunggu ACC selesai ({awaiting.length})
           </h2>
-          {awaiting.map((t) => (
-            <TaskCard key={t.id} task={t} perspective="giver" />
-          ))}
+          <CardGrid>
+            {awaiting.map((t) => (
+              <TaskCard key={t.id} task={t} perspective="giver" />
+            ))}
+          </CardGrid>
         </section>
       )}
     </div>

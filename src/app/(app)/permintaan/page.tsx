@@ -4,6 +4,7 @@ import { getAllRequests, getRequestsNeedingUser } from "@/lib/data/requests";
 import { RequestCard } from "@/components/request-card";
 import { Tabs } from "@/components/ui/tabs";
 import { EmptyState } from "@/components/ui/empty-state";
+import { CardGrid } from "@/components/ui/card-grid";
 
 export default async function PermintaanPage({
   searchParams,
@@ -41,11 +42,11 @@ export default async function PermintaanPage({
           description="Permintaan muncul saat seseorang menugaskan ke rekan sejajar, atasan, atau lintas divisi."
         />
       ) : (
-        <div className="space-y-3">
+        <CardGrid>
           {list.map((r) => (
             <RequestCard key={r.id} req={r} needsMe={needs.has(r.id)} />
           ))}
-        </div>
+        </CardGrid>
       )}
     </div>
   );
