@@ -14,7 +14,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <Sidebar user={user} pendingApprovals={counts.pendingApprovals} canMonitor={showMonitor} />
 
       <div className="mx-auto flex w-full max-w-lg flex-1 flex-col lg:mx-0 lg:max-w-none">
-        <Header user={user} unread={counts.unreadNotifications} />
+        <Header user={user} unread={counts.unreadNotifications} canMonitor={showMonitor} />
         <main className="flex-1 px-4 pt-4 pb-safe lg:px-10 lg:pt-8">
           <div className="lg:mx-auto lg:max-w-6xl">{children}</div>
         </main>

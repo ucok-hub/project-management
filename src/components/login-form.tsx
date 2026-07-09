@@ -37,6 +37,16 @@ export function LoginForm() {
         />
       </Field>
 
+      <label className="flex items-center gap-2.5 text-sm font-medium text-slate-700">
+        <input
+          type="checkbox"
+          name="remember"
+          defaultChecked
+          className="h-5 w-5 rounded border-slate-300 text-teal-600 focus:ring-teal-500/30"
+        />
+        Klik di sini biar nggak perlu login-login lagi
+      </label>
+
       {state.error && (
         <div className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
           <AlertCircle className="h-5 w-5 shrink-0" />

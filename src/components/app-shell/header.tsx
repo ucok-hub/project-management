@@ -1,13 +1,22 @@
 import Link from "next/link";
 import { Bell } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
+import { FeatureSearch } from "@/components/app-shell/feature-search";
 import type { CurrentUser } from "@/lib/auth";
 
 function firstName(name: string): string {
   return name.replace(/^(Pak|Bu|Ibu|Bpk)\s+/i, "").split(/\s+/)[0];
 }
 
-export function Header({ user, unread }: { user: CurrentUser; unread: number }) {
+export function Header({
+  user,
+  unread,
+  canMonitor,
+}: {
+  user: CurrentUser;
+  unread: number;
+  canMonitor: boolean;
+}) {
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="flex items-center justify-between gap-2 px-4 py-3">
@@ -19,6 +28,7 @@ export function Header({ user, unread }: { user: CurrentUser; unread: number }) 
           </p>
         </div>
         <div className="flex items-center gap-1">
+          <FeatureSearch canMonitor={canMonitor} isAdmin={user.isAdmin} />
           <Link
             href="/notifikasi"
             aria-label="Notifikasi"

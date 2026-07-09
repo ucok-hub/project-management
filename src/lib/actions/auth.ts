@@ -21,7 +21,8 @@ export async function loginAction(
     return { error: "Username atau password salah." };
   }
 
-  await createSession(user.id);
+  const remember = formData.get("remember") != null;
+  await createSession(user.id, remember);
   redirect("/beranda");
 }
 

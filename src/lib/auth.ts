@@ -9,7 +9,8 @@ import { users } from "@/db/schema";
 import type { User, Position } from "@/db/schema";
 
 const COOKIE_NAME = "sesi";
-const MAX_AGE = 60 * 60 * 24 * 30; // 30 hari
+const REMEMBER_MAX_AGE = 60 * 60 * 24 * 30; // 30 hari — kotak "ingat saya" dicentang
+const SESSION_MAX_AGE = 60 * 60 * 24; // 1 hari — jaring pengaman bila browser tak hapus cookie sesi
 
 function secretKey(): Uint8Array {
   const secret = process.env.AUTH_SECRET;
@@ -19,12 +20,18 @@ function secretKey(): Uint8Array {
 
 export type CurrentUser = User & { position: Position };
 
-/** Buat sesi login (menyimpan cookie JWT). */
-export async function createSession(userId: string): Promise<void> {
+/**
+ * Buat sesi login (menyimpan cookie JWT).
+ * `remember=true` (default, kotak "ingat saya" dicentang) -> sesi bertahan 30 hari.
+ * `remember=false` -> cookie sesi (hilang saat browser ditutup) + token kedaluwarsa
+ * 1 hari sebagai jaring pengaman kalau browser tak benar-benar menghapusnya.
+ */
+export async function createSession(userId: string, remember: boolean = true): Promise<void> {
+  const maxAge = remember ? REMEMBER_MAX_AGE : SESSION_MAX_AGE;
   const token = await new SignJWT({ sub: userId })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime(`${MAX_AGE}s`)
+    .setExpirationTime(`${maxAge}s`)
     .sign(secretKey());
 
   const store = await cookies();
@@ -33,7 +40,7 @@ export async function createSession(userId: string): Promise<void> {
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: MAX_AGE,
+    ...(remember ? { maxAge } : {}),
   });
 }
 

@@ -1,12 +1,10 @@
 import Link from "next/link";
-import { Send, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { requireUser } from "@/lib/auth";
 import { getTasksGivenBy, sortTasksForDisplay } from "@/lib/data/tasks";
-import { TaskCard } from "@/components/task-card";
 import { Tabs } from "@/components/ui/tabs";
-import { EmptyState } from "@/components/ui/empty-state";
+import { TaskList } from "@/components/task-list";
 import { buttonClass } from "@/components/ui/button";
-import { CardGrid } from "@/components/ui/card-grid";
 
 export default async function SayaBeriPage({
   searchParams,
@@ -38,24 +36,13 @@ export default async function SayaBeriPage({
         ]}
       />
 
-      {list.length === 0 ? (
-        <EmptyState
-          icon={<Send className="h-10 w-10" />}
-          title={f === "selesai" ? "Belum ada yang selesai" : "Belum memberi tugas"}
-          description="Tugas yang Anda berikan ke orang lain akan muncul di sini."
-          action={
-            <Link href="/buat" className={buttonClass("primary", "md")}>
-              <Plus className="h-5 w-5" /> Buat Tugas
-            </Link>
-          }
-        />
-      ) : (
-        <CardGrid>
-          {list.map((t) => (
-            <TaskCard key={t.id} task={t} perspective="giver" />
-          ))}
-        </CardGrid>
-      )}
+      <TaskList
+        tasks={list}
+        perspective="giver"
+        emptyTitle={f === "selesai" ? "Belum ada yang selesai" : "Belum memberi tugas"}
+        emptyDescription="Tugas yang Anda berikan ke orang lain akan muncul di sini."
+        showCreateCta
+      />
     </div>
   );
 }

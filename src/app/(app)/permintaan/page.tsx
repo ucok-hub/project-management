@@ -1,10 +1,7 @@
-import { Inbox } from "lucide-react";
 import { requireUser } from "@/lib/auth";
 import { getAllRequests, getRequestsNeedingUser } from "@/lib/data/requests";
-import { RequestCard } from "@/components/request-card";
 import { Tabs } from "@/components/ui/tabs";
-import { EmptyState } from "@/components/ui/empty-state";
-import { CardGrid } from "@/components/ui/card-grid";
+import { RequestList } from "@/components/request-list";
 
 export default async function PermintaanPage({
   searchParams,
@@ -35,19 +32,12 @@ export default async function PermintaanPage({
         ]}
       />
 
-      {list.length === 0 ? (
-        <EmptyState
-          icon={<Inbox className="h-10 w-10" />}
-          title={tab === "riwayat" ? "Belum ada riwayat" : "Tidak ada permintaan menunggu"}
-          description="Permintaan muncul saat seseorang menugaskan ke rekan sejajar, atasan, atau lintas divisi."
-        />
-      ) : (
-        <CardGrid>
-          {list.map((r) => (
-            <RequestCard key={r.id} req={r} needsMe={needs.has(r.id)} />
-          ))}
-        </CardGrid>
-      )}
+      <RequestList
+        requests={list}
+        needsMeIds={needs}
+        emptyTitle={tab === "riwayat" ? "Belum ada riwayat" : "Tidak ada permintaan menunggu"}
+        emptyDescription="Permintaan muncul saat seseorang menugaskan ke rekan sejajar, atasan, atau lintas divisi."
+      />
     </div>
   );
 }
