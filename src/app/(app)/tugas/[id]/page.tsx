@@ -1,9 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CalendarClock, AlertTriangle, CheckCircle2, FileText, ArrowUpRight } from "lucide-react";
+import {
+  CalendarClock,
+  AlertTriangle,
+  CheckCircle2,
+  FileText,
+  ArrowUpRight,
+  MessageSquare,
+} from "lucide-react";
 import { requireUser } from "@/lib/auth";
 import { getTaskById } from "@/lib/data/tasks";
+import { getCommentsForTask } from "@/lib/data/comments";
 import { TaskActions } from "@/components/task-actions";
+import { CommentForm } from "@/components/comment-form";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { BackLink } from "@/components/ui/back-link";
@@ -26,7 +35,7 @@ export default async function TaskDetailPage({
   const { id } = await params;
   const { baru } = await searchParams;
   const me = await requireUser();
-  const task = await getTaskById(id);
+  const [task, taskComments] = await Promise.all([getTaskById(id), getCommentsForTask(id)]);
   if (!task) notFound();
 
   const status = task.status as TaskStatus;
@@ -112,6 +121,36 @@ export default async function TaskDetailPage({
         isSelf={isSelf}
         giverName={task.giver.name}
       />
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 className="mb-3 flex items-center gap-1.5 font-bold text-slate-900">
+          <MessageSquare className="h-4 w-4" /> Komentar
+          {taskComments.length > 0 && (
+            <span className="font-normal text-slate-400">({taskComments.length})</span>
+          )}
+        </h2>
+
+        {(isGiver || isAssignee) && <CommentForm taskId={task.id} />}
+
+        {taskComments.length === 0 ? (
+          <p className="mt-3 text-sm text-slate-400">Belum ada komentar.</p>
+        ) : (
+          <ul className="mt-4 space-y-3.5">
+            {taskComments.map((c) => (
+              <li key={c.id} className="flex items-start gap-2.5">
+                <Avatar name={c.author.name} size="sm" />
+                <div className="min-w-0 flex-1 rounded-xl bg-slate-50 px-3.5 py-2.5">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <p className="truncate text-sm font-semibold text-slate-800">{c.author.name}</p>
+                    <p className="shrink-0 text-xs text-slate-400">{formatDateTime(c.createdAt)}</p>
+                  </div>
+                  <p className="mt-0.5 whitespace-pre-wrap text-sm text-slate-700">{c.body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

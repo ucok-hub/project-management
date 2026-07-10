@@ -105,6 +105,19 @@ export const notifications = pgTable("notifications", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+/** KOMENTAR — log keterangan bertumpuk pada sebuah tugas (pemberi & penerima tugas). */
+export const comments = pgTable("comments", {
+  id: text("id").primaryKey(),
+  taskId: text("task_id")
+    .notNull()
+    .references(() => tasks.id),
+  authorId: text("author_id")
+    .notNull()
+    .references(() => users.id),
+  body: text("body").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 /** LAMPIRAN (opsional) pada tugas. */
 export const attachments = pgTable("attachments", {
   id: text("id").primaryKey(),
@@ -147,6 +160,7 @@ export const tasksRelations = relations(tasks, ({ one, many }) => ({
   }),
   request: one(requests, { fields: [tasks.requestId], references: [requests.id] }),
   attachments: many(attachments),
+  comments: many(comments),
 }));
 
 export const requestsRelations = relations(requests, ({ one, many }) => ({
@@ -176,6 +190,11 @@ export const attachmentsRelations = relations(attachments, ({ one }) => ({
   task: one(tasks, { fields: [attachments.taskId], references: [tasks.id] }),
 }));
 
+export const commentsRelations = relations(comments, ({ one }) => ({
+  task: one(tasks, { fields: [comments.taskId], references: [tasks.id] }),
+  author: one(users, { fields: [comments.authorId], references: [users.id] }),
+}));
+
 // ---- Tipe turunan ----
 export type Position = typeof positions.$inferSelect;
 export type User = typeof users.$inferSelect;
@@ -184,3 +203,4 @@ export type Request = typeof requests.$inferSelect;
 export type RequestApproval = typeof requestApprovals.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
 export type Attachment = typeof attachments.$inferSelect;
+export type Comment = typeof comments.$inferSelect;

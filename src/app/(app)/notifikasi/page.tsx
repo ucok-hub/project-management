@@ -17,6 +17,7 @@ const TYPE_STYLE: Record<string, string> = {
   tugas_menunggu_acc: "bg-blue-100 text-blue-700",
   tugas_disetujui: "bg-emerald-100 text-emerald-700",
   tugas_dikembalikan: "bg-amber-100 text-amber-700",
+  komentar_baru: "bg-violet-100 text-violet-700",
 };
 
 export default async function NotifikasiPage() {
