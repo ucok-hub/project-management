@@ -4,9 +4,28 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, ClipboardList, Plus, BadgeCheck, LayoutGrid } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  isNavItemActive,
+  matchHubHref,
+  readLastSectionCookie,
+  resolveEffectivePathname,
+  type TrackedHubHref,
+} from "@/lib/section-tracker";
 
-export function BottomNav({ pendingApprovals }: { pendingApprovals: number }) {
+export function BottomNav({
+  pendingApprovals,
+  lastSection,
+}: {
+  pendingApprovals: number;
+  lastSection: TrackedHubHref | null;
+}) {
   const pathname = usePathname();
+  const cookieLastSection =
+    typeof document === "undefined" ? lastSection : readLastSectionCookie(document.cookie) ?? lastSection;
+  const effectivePathname = resolveEffectivePathname(
+    pathname,
+    matchHubHref(pathname) ?? cookieLastSection,
+  );
 
   const items = [
     { href: "/beranda", label: "Beranda", Icon: Home },
@@ -20,7 +39,7 @@ export function BottomNav({ pendingApprovals }: { pendingApprovals: number }) {
     <nav className="fixed bottom-0 left-1/2 z-30 w-full max-w-lg -translate-x-1/2 border-t border-slate-200 bg-white bottom-safe lg:hidden">
       <ul className="flex items-stretch justify-around px-1 py-1.5">
         {items.map(({ href, label, Icon, center, badge }) => {
-          const active = href === "/beranda" ? pathname === href : pathname.startsWith(href);
+          const active = isNavItemActive(href, effectivePathname);
           if (center) {
             return (
               <li key={href} className="flex flex-1 items-center justify-center">

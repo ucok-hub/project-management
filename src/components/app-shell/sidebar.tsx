@@ -19,17 +19,32 @@ import { logoutAction } from "@/lib/actions/auth";
 import { Avatar } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import type { CurrentUser } from "@/lib/auth";
+import {
+  isNavItemActive,
+  matchHubHref,
+  readLastSectionCookie,
+  resolveEffectivePathname,
+  type TrackedHubHref,
+} from "@/lib/section-tracker";
 
 export function Sidebar({
   user,
   pendingApprovals,
   canMonitor,
+  lastSection,
 }: {
   user: CurrentUser;
   pendingApprovals: number;
   canMonitor: boolean;
+  lastSection: TrackedHubHref | null;
 }) {
   const pathname = usePathname();
+  const cookieLastSection =
+    typeof document === "undefined" ? lastSection : readLastSectionCookie(document.cookie) ?? lastSection;
+  const effectivePathname = resolveEffectivePathname(
+    pathname,
+    matchHubHref(pathname) ?? cookieLastSection,
+  );
 
   const items = [
     { href: "/beranda", label: "Beranda", Icon: Home },
@@ -64,7 +79,7 @@ export function Sidebar({
 
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-3">
         {items.map(({ href, label, Icon, badge }) => {
-          const active = href === "/beranda" ? pathname === href : pathname.startsWith(href);
+          const active = isNavItemActive(href, effectivePathname);
           return (
             <Link
               key={href}

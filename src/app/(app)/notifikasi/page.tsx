@@ -5,6 +5,7 @@ import { getNotifications } from "@/lib/data/notifications";
 import { markAllReadAction } from "@/lib/actions/notifications";
 import { EmptyState } from "@/components/ui/empty-state";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { SetHeaderBack } from "@/components/app-shell/header-back";
 import { timeAgo } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -27,8 +28,8 @@ export default async function NotifikasiPage() {
 
   return (
     <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-2xl">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-slate-900">Notifikasi</h1>
+      <SetHeaderBack title="Notifikasi" fallbackHref="/beranda" />
+      <div className="flex items-center justify-end">
         {hasUnread && (
           <form action={markAllReadAction}>
             <SubmitButton variant="secondary" size="sm" pendingText="…">

@@ -15,7 +15,7 @@ import { TaskActions } from "@/components/task-actions";
 import { CommentForm } from "@/components/comment-form";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { BackLink } from "@/components/ui/back-link";
+import { SetHeaderBack } from "@/components/app-shell/header-back";
 import {
   TASK_STATUS,
   formatDeadline,
@@ -24,6 +24,7 @@ import {
   type TaskStatus,
 } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { resolveTaskDefaultSection } from "@/lib/task-section";
 
 export default async function TaskDetailPage({
   params,
@@ -44,11 +45,11 @@ export default async function TaskDetailPage({
   const isGiver = task.giverId === me.id;
   const isSelf = task.giverId === task.assigneeId;
   const overdue = isOverdue(task.deadline, status);
-  const backHref = isGiver && !isAssignee ? "/saya-beri" : "/tugas-saya";
+  const backHref = resolveTaskDefaultSection(me, task);
 
   return (
     <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-xl">
-      <BackLink href={backHref} />
+      <SetHeaderBack title="Detail Tugas" fallbackHref={backHref} />
 
       {baru === "1" && (
         <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">

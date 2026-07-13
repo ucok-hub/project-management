@@ -3,7 +3,7 @@ import { requireAdmin } from "@/lib/auth";
 import { getUserById } from "@/lib/data/users";
 import { getAllPositions } from "@/lib/data/positions";
 import { UserEditForm, PasswordResetForm } from "@/components/admin/user-edit-form";
-import { BackLink } from "@/components/ui/back-link";
+import { SetHeaderBack } from "@/components/app-shell/header-back";
 import { Avatar } from "@/components/ui/avatar";
 
 export default async function AdminEditPage({ params }: { params: Promise<{ id: string }> }) {
@@ -19,7 +19,7 @@ export default async function AdminEditPage({ params }: { params: Promise<{ id: 
 
   return (
     <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-xl">
-      <BackLink href="/admin" label="Kelola Pengguna" />
+      <SetHeaderBack title="Kelola Pengguna" fallbackHref="/admin" />
 
       <div className="flex items-center gap-3">
         <Avatar name={user.name} size="lg" />

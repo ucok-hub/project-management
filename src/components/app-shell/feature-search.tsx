@@ -24,15 +24,17 @@ export function FeatureSearch({
         setOpen(true);
       } else if (e.key === "Escape") {
         setOpen(false);
+        setQuery("");
       }
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  useEffect(() => {
-    if (!open) setQuery("");
-  }, [open]);
+  function closeSearch() {
+    setOpen(false);
+    setQuery("");
+  }
 
   const results = searchDestinations(query, { canMonitor, isAdmin });
 
@@ -52,7 +54,7 @@ export function FeatureSearch({
           <button
             aria-label="Tutup"
             className="absolute inset-0 h-full w-full cursor-default"
-            onClick={() => setOpen(false)}
+            onClick={closeSearch}
           />
           <div className="relative flex h-dvh w-full flex-col bg-white shadow-2xl sm:h-auto sm:max-h-[70vh] sm:max-w-lg sm:rounded-2xl">
             <div className="flex items-center gap-2 border-b border-slate-100 p-4">
@@ -66,7 +68,7 @@ export function FeatureSearch({
               </div>
               <button
                 type="button"
-                onClick={() => setOpen(false)}
+                onClick={closeSearch}
                 aria-label="Tutup pencarian"
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100"
               >
@@ -85,7 +87,7 @@ export function FeatureSearch({
                     <li key={href}>
                       <Link
                         href={href}
-                        onClick={() => setOpen(false)}
+                        onClick={closeSearch}
                         className="flex items-center gap-3 rounded-xl px-3 py-3 text-slate-800 hover:bg-slate-50 active:bg-slate-100"
                       >
                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600">

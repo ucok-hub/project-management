@@ -7,7 +7,7 @@ import { getAllPositions } from "@/lib/data/positions";
 import { RequestActions } from "@/components/request-actions";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { BackLink } from "@/components/ui/back-link";
+import { SetHeaderBack } from "@/components/app-shell/header-back";
 import { REQUEST_STATUS, formatDeadline, formatDateTime, type RequestStatus } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -53,7 +53,7 @@ export default async function RequestDetailPage({
 
   return (
     <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-xl">
-      <BackLink href="/permintaan" label="Papan Permintaan" />
+      <SetHeaderBack title="Detail Permintaan" fallbackHref="/permintaan" />
 
       {baru === "1" && (
         <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800">

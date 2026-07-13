@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test src/lib/permissions.test.ts src/lib/core/engine.test.ts",
+    "test": "node --import tsx --test src/lib/permissions.test.ts src/lib/core/engine.test.ts src/lib/section-tracker.test.ts src/lib/task-section.test.ts",
     "e2e": "node scripts/e2e.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",

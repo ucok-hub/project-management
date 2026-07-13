@@ -2,6 +2,7 @@ import { requireUser } from "@/lib/auth";
 import { getActiveUsers } from "@/lib/data/users";
 import { getAllPositions } from "@/lib/data/positions";
 import { CreateForm } from "@/components/create-form";
+import { SetHeaderBack } from "@/components/app-shell/header-back";
 
 export default async function BuatPage() {
   const me = await requireUser();
@@ -24,12 +25,10 @@ export default async function BuatPage() {
 
   return (
     <div className="space-y-4 pb-4 lg:mx-auto lg:max-w-xl">
-      <div>
-        <h1 className="text-xl font-bold text-slate-900">Buat Tugas</h1>
-        <p className="text-sm text-slate-500">
-          Pilih orangnya, sistem otomatis menentukan langsung jadi tugas atau perlu persetujuan.
-        </p>
-      </div>
+      <SetHeaderBack title="Buat Tugas" fallbackHref="/beranda" />
+      <p className="text-sm text-slate-500">
+        Pilih orangnya, sistem otomatis menentukan langsung jadi tugas atau perlu persetujuan.
+      </p>
       <CreateForm me={{ id: me.id, positionId: me.positionId }} users={usersLite} positions={positionsLite} />
     </div>
   );
