@@ -22,6 +22,7 @@ export const users = pgTable("users", {
     .notNull()
     .references(() => positions.id),
   passwordHash: text("password_hash").notNull(),
+  avatarUrl: text("avatar_url"),
   isAdmin: boolean("is_admin").notNull().default(false),
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

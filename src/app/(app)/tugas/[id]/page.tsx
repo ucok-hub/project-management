@@ -82,8 +82,8 @@ export default async function TaskDetailPage({
 
         {/* Pihak */}
         <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
-          <PartyRow label="Dari" name={task.giver.name} sub={task.giver.position.name} />
-          <PartyRow label="Untuk" name={task.assignee.name} sub={task.assignee.position.name} />
+          <PartyRow label="Dari" name={task.giver.name} sub={task.giver.position.name} avatarUrl={task.giver.avatarUrl} />
+          <PartyRow label="Untuk" name={task.assignee.name} sub={task.assignee.position.name} avatarUrl={task.assignee.avatarUrl} />
         </div>
 
         {task.note && (
@@ -139,7 +139,7 @@ export default async function TaskDetailPage({
           <ul className="mt-4 space-y-3.5">
             {taskComments.map((c) => (
               <li key={c.id} className="flex items-start gap-2.5">
-                <Avatar name={c.author.name} size="sm" />
+                <Avatar name={c.author.name} src={c.author.avatarUrl} size="sm" />
                 <div className="min-w-0 flex-1 rounded-xl bg-slate-50 px-3.5 py-2.5">
                   <div className="flex items-baseline justify-between gap-2">
                     <p className="truncate text-sm font-semibold text-slate-800">{c.author.name}</p>
@@ -156,10 +156,10 @@ export default async function TaskDetailPage({
   );
 }
 
-function PartyRow({ label, name, sub }: { label: string; name: string; sub: string }) {
+function PartyRow({ label, name, sub, avatarUrl }: { label: string; name: string; sub: string; avatarUrl: string | null }) {
   return (
     <div className="flex items-center gap-3">
-      <Avatar name={name} size="sm" />
+      <Avatar name={name} src={avatarUrl} size="sm" />
       <div className="min-w-0">
         <p className="text-xs text-slate-400">{label}</p>
         <p className="truncate font-semibold text-slate-800">

@@ -71,8 +71,8 @@ export default async function RequestDetailPage({
         </div>
 
         <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
-          <PartyRow label="Peminta" name={req.requester.name} sub={req.requester.position.name} />
-          <PartyRow label="Diminta" name={req.target.name} sub={req.target.position.name} />
+          <PartyRow label="Peminta" name={req.requester.name} sub={req.requester.position.name} avatarUrl={req.requester.avatarUrl} />
+          <PartyRow label="Diminta" name={req.target.name} sub={req.target.position.name} avatarUrl={req.target.avatarUrl} />
         </div>
 
         {req.note && (
@@ -159,10 +159,10 @@ function DecisionText({ decision, by }: { decision: string; by?: string | null }
   return <span className="text-slate-400">Menunggu</span>;
 }
 
-function PartyRow({ label, name, sub }: { label: string; name: string; sub: string }) {
+function PartyRow({ label, name, sub, avatarUrl }: { label: string; name: string; sub: string; avatarUrl: string | null }) {
   return (
     <div className="flex items-center gap-3">
-      <Avatar name={name} size="sm" />
+      <Avatar name={name} src={avatarUrl} size="sm" />
       <div className="min-w-0">
         <p className="text-xs text-slate-400">{label}</p>
         <p className="truncate font-semibold text-slate-800">

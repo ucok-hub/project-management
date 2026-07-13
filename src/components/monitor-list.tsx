@@ -40,7 +40,7 @@ export function MonitorList({ rows }: { rows: MonitorRow[] }) {
             {filtered.map(({ user, summary, overdue, activeCount, active }) => (
               <div key={user.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <Avatar name={user.name} size="sm" />
+                  <Avatar name={user.name} src={user.avatarUrl} size="sm" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold text-slate-900">{user.name}</p>
                     <p className="text-xs text-slate-400">{user.position.name}</p>
@@ -105,7 +105,7 @@ export function MonitorList({ rows }: { rows: MonitorRow[] }) {
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2.5">
-                        <Avatar name={user.name} size="sm" />
+                        <Avatar name={user.name} src={user.avatarUrl} size="sm" />
                         <div className="min-w-0">
                           <p className="flex items-center gap-1.5 truncate font-semibold text-slate-900">
                             {user.name}

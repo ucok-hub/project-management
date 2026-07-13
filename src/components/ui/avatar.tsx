@@ -28,25 +28,39 @@ function colorFor(name: string): string {
   return COLORS[h % COLORS.length];
 }
 
+const SIZES = {
+  sm: "h-8 w-8 text-xs",
+  md: "h-10 w-10 text-sm",
+  lg: "h-12 w-12 text-base",
+};
+
 export function Avatar({
   name,
+  src,
   size = "md",
   className,
 }: {
   name: string;
+  src?: string | null;
   size?: "sm" | "md" | "lg";
   className?: string;
 }) {
-  const sizes = {
-    sm: "h-8 w-8 text-xs",
-    md: "h-10 w-10 text-sm",
-    lg: "h-12 w-12 text-base",
-  };
+  if (src) {
+    return (
+      // Ukurannya sudah 256x256 dan terkompresi; optimisasi Next Image tidak diperlukan.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt=""
+        className={cn("inline-block shrink-0 rounded-full object-cover", SIZES[size], className)}
+      />
+    );
+  }
   return (
     <span
       className={cn(
         "inline-flex shrink-0 items-center justify-center rounded-full font-bold text-white",
-        sizes[size],
+        SIZES[size],
         colorFor(name),
         className,
       )}

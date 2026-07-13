@@ -46,7 +46,7 @@ export function UserList({ users }: { users: UserRow[] }) {
                   i === filtered.length - 1 ? "" : "border-b border-slate-100"
                 }`}
               >
-                <Avatar name={u.name} size="sm" />
+                <Avatar name={u.name} src={u.avatarUrl} size="sm" />
                 <div className="min-w-0 flex-1">
                   <p className="flex items-center gap-1.5 font-semibold text-slate-900">
                     <span className="truncate">{u.name}</span>
@@ -84,7 +84,7 @@ export function UserList({ users }: { users: UserRow[] }) {
                   <tr key={u.id} className={cn(i !== filtered.length - 1 && "border-b border-slate-100")}>
                     <td className="px-4 py-3">
                       <Link href={`/admin/${u.id}`} className="flex items-center gap-2.5 hover:text-teal-700">
-                        <Avatar name={u.name} size="sm" />
+                        <Avatar name={u.name} src={u.avatarUrl} size="sm" />
                         <span className="truncate font-semibold text-slate-900">{u.name}</span>
                       </Link>
                     </td>

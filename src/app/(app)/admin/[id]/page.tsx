@@ -22,7 +22,7 @@ export default async function AdminEditPage({ params }: { params: Promise<{ id: 
       <SetHeaderBack title="Kelola Pengguna" fallbackHref="/admin" />
 
       <div className="flex items-center gap-3">
-        <Avatar name={user.name} size="lg" />
+        <Avatar name={user.name} src={user.avatarUrl} size="lg" />
         <div className="min-w-0">
           <h1 className="truncate text-xl font-bold text-slate-900">{user.name}</h1>
           <p className="text-sm text-slate-500">@{user.username}</p>
