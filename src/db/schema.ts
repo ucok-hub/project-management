@@ -28,6 +28,15 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+/** Presence ? status online/idle terakhir yang dilaporkan tiap user. */
+export const presence = pgTable("presence", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => users.id),
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull().defaultNow(),
+  status: text("status").notNull().default("online"),
+});
+
 /**
  * TUGAS.
  * status: belum | dikerjakan | menunggu_acc | selesai
@@ -190,6 +199,7 @@ export const requestApprovalsRelations = relations(requestApprovals, ({ one }) =
 export const attachmentsRelations = relations(attachments, ({ one }) => ({
   task: one(tasks, { fields: [attachments.taskId], references: [tasks.id] }),
 }));
+export type Presence = typeof presence.$inferSelect;
 
 export const commentsRelations = relations(comments, ({ one }) => ({
   task: one(tasks, { fields: [comments.taskId], references: [tasks.id] }),

@@ -15,11 +15,12 @@ export default async function ProfilPage() {
 
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex items-center gap-4">
-          <Avatar name={me.name} src={me.avatarUrl} size="lg" />
+          <Avatar name={me.name} src={me.avatarUrl} size="lg" presence="online" />
           <div className="min-w-0">
             <p className="truncate text-lg font-bold text-slate-900">{me.name}</p>
             <p className="text-sm text-slate-500">{me.position.name}</p>
             <p className="mt-1 text-xs text-slate-400">@{me.username}</p>
+            <p className="mt-1.5 text-sm font-medium text-emerald-600">Online sekarang</p>
             {me.isAdmin && (
               <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-teal-100 px-2 py-0.5 text-xs font-bold text-teal-700">
                 <ShieldCheck className="h-3.5 w-3.5" /> Admin

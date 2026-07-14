@@ -7,6 +7,7 @@ import { BottomNav } from "@/components/app-shell/bottom-nav";
 import { Sidebar } from "@/components/app-shell/sidebar";
 import { HeaderBackProvider } from "@/components/app-shell/header-back";
 import { SectionTracker } from "@/components/app-shell/section-tracker";
+import { PresenceHeartbeat } from "@/components/app-shell/presence-heartbeat";
 import { isTrackedHubHref, LAST_SECTION_COOKIE } from "@/lib/section-tracker";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -23,6 +24,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <HeaderBackProvider>
       <div className="min-h-dvh bg-slate-100 lg:flex">
         <SectionTracker />
+        <PresenceHeartbeat />
         <Sidebar
           user={user}
           pendingApprovals={counts.pendingApprovals}

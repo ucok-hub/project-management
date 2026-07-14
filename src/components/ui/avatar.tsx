@@ -1,3 +1,4 @@
+import { Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function initials(name: string): string {
@@ -34,29 +35,64 @@ const SIZES = {
   lg: "h-12 w-12 text-base",
 };
 
+const DOT_SIZES = {
+  sm: "h-2.5 w-2.5",
+  md: "h-3 w-3",
+  lg: "h-3.5 w-3.5",
+};
+
+type PresenceValue = "online" | "idle" | "offline";
+type Size = "sm" | "md" | "lg";
+
+function PresenceDot({ presence, size }: { presence: PresenceValue; size: Size }) {
+  if (presence === "idle") {
+    return (
+      <span
+        className={cn(
+          "absolute bottom-0 right-0 flex items-center justify-center rounded-full bg-amber-400 ring-2 ring-white",
+          DOT_SIZES[size],
+        )}
+        aria-label="Idle"
+      >
+        <Moon className="h-full w-full scale-75 text-amber-900" />
+      </span>
+    );
+  }
+
+  return (
+    <span
+      className={cn(
+        "absolute bottom-0 right-0 rounded-full ring-2 ring-white",
+        presence === "online" ? "bg-emerald-500" : "bg-slate-300",
+        DOT_SIZES[size],
+      )}
+      aria-label={presence === "online" ? "Online" : "Offline"}
+    />
+  );
+}
+
 export function Avatar({
   name,
   src,
+  presence,
   size = "md",
   className,
 }: {
   name: string;
   src?: string | null;
-  size?: "sm" | "md" | "lg";
+  presence?: PresenceValue;
+  size?: Size;
   className?: string;
 }) {
-  if (src) {
-    return (
-      // Ukurannya sudah 256x256 dan terkompresi; optimisasi Next Image tidak diperlukan.
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={src}
-        alt=""
-        className={cn("inline-block shrink-0 rounded-full object-cover", SIZES[size], className)}
-      />
-    );
-  }
-  return (
+  const bubble = src ? (
+    // Ukurannya sudah 256x256 dan terkompresi; optimisasi Next Image tidak diperlukan.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt=""
+      className={cn("inline-block shrink-0 rounded-full object-cover", SIZES[size], className)}
+    />
+  ) : (
     <span
       className={cn(
         "inline-flex shrink-0 items-center justify-center rounded-full font-bold text-white",
@@ -67,6 +103,15 @@ export function Avatar({
       aria-hidden
     >
       {initials(name)}
+    </span>
+  );
+
+  if (!presence) return bubble;
+
+  return (
+    <span className="relative inline-flex shrink-0">
+      {bubble}
+      <PresenceDot presence={presence} size={size} />
     </span>
   );
 }

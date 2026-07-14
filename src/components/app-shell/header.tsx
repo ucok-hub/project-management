@@ -52,7 +52,7 @@ export function Header({
             )}
           </Link>
           <Link href="/profil" aria-label="Profil" className="rounded-full">
-            <Avatar name={user.name} src={user.avatarUrl} />
+            <Avatar name={user.name} src={user.avatarUrl} presence="online" />
           </Link>
         </div>
       </div>

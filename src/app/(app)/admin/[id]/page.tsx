@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { getUserById } from "@/lib/data/users";
+import { getPresenceForUsers } from "@/lib/data/presence";
+import { timeAgo } from "@/lib/format";
 import { getAllPositions } from "@/lib/data/positions";
 import { UserEditForm, PasswordResetForm } from "@/components/admin/user-edit-form";
 import { SetHeaderBack } from "@/components/app-shell/header-back";
-import { Avatar } from "@/components/ui/avatar";
+import { PresenceAvatar } from "@/components/presence/presence-avatar";
 
 export default async function AdminEditPage({ params }: { params: Promise<{ id: string }> }) {
   const me = await requireAdmin();
@@ -12,6 +14,7 @@ export default async function AdminEditPage({ params }: { params: Promise<{ id: 
   const user = await getUserById(id);
   if (!user) notFound();
 
+  const { status, lastSeenAt } = (await getPresenceForUsers([user.id]))[user.id];
   const positions = [...(await getAllPositions())]
     .sort((a, b) => a.sort - b.sort)
     .map((p) => ({ id: p.id, name: p.name }));
@@ -22,7 +25,16 @@ export default async function AdminEditPage({ params }: { params: Promise<{ id: 
       <SetHeaderBack title="Kelola Pengguna" fallbackHref="/admin" />
 
       <div className="flex items-center gap-3">
-        <Avatar name={user.name} src={user.avatarUrl} size="lg" />
+          <p className="mt-1 text-sm font-medium">
+            {status === "online" && <span className="text-emerald-600">Online sekarang</span>}
+            {status === "idle" && <span className="text-amber-600">Idle</span>}
+            {status === "offline" && (
+              <span className="text-slate-500">
+                {lastSeenAt ? `Terakhir dilihat: ${timeAgo(lastSeenAt)}` : "Belum pernah online"}
+              </span>
+            )}
+          </p>
+        <PresenceAvatar userId={user.id} name={user.name} src={user.avatarUrl} size="lg" />
         <div className="min-w-0">
           <h1 className="truncate text-xl font-bold text-slate-900">{user.name}</h1>
           <p className="text-sm text-slate-500">@{user.username}</p>

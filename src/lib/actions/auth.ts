@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { verifyCredentials, createSession, destroySession } from "@/lib/auth";
+import { clearPresenceAction } from "@/lib/actions/presence";
 
 export type LoginState = { error?: string };
 
@@ -27,6 +28,7 @@ export async function loginAction(
 }
 
 export async function logoutAction(): Promise<void> {
+  await clearPresenceAction();
   await destroySession();
   redirect("/masuk");
 }

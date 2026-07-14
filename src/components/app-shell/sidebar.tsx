@@ -106,7 +106,7 @@ export function Sidebar({
           href="/profil"
           className="flex items-center gap-2.5 rounded-xl px-2 py-2 transition-colors hover:bg-slate-50"
         >
-          <Avatar name={user.name} src={user.avatarUrl} size="sm" />
+          <Avatar name={user.name} src={user.avatarUrl} size="sm" presence="online" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-slate-800">{user.name}</p>
             <p className="truncate text-xs text-slate-400">{user.position.name}</p>

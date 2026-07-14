@@ -7,6 +7,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { SearchInput } from "@/components/ui/search-input";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
+import { usePresence } from "@/lib/use-presence";
 import type { getAllUsers } from "@/lib/data/users";
 
 type UserRow = Awaited<ReturnType<typeof getAllUsers>>[number];
@@ -24,6 +25,7 @@ export function UserList({ users }: { users: UserRow[] }) {
         u.position.name.toLowerCase().includes(q),
     );
   }, [users, query]);
+  const statuses = usePresence(filtered.map((user) => user.id));
 
   return (
     <div className="space-y-3">
@@ -46,7 +48,12 @@ export function UserList({ users }: { users: UserRow[] }) {
                   i === filtered.length - 1 ? "" : "border-b border-slate-100"
                 }`}
               >
-                <Avatar name={u.name} src={u.avatarUrl} size="sm" />
+                <Avatar
+                  name={u.name}
+                  src={u.avatarUrl}
+                  size="sm"
+                  presence={statuses[u.id] ?? "offline"}
+                />
                 <div className="min-w-0 flex-1">
                   <p className="flex items-center gap-1.5 font-semibold text-slate-900">
                     <span className="truncate">{u.name}</span>
@@ -84,7 +91,12 @@ export function UserList({ users }: { users: UserRow[] }) {
                   <tr key={u.id} className={cn(i !== filtered.length - 1 && "border-b border-slate-100")}>
                     <td className="px-4 py-3">
                       <Link href={`/admin/${u.id}`} className="flex items-center gap-2.5 hover:text-teal-700">
-                        <Avatar name={u.name} src={u.avatarUrl} size="sm" />
+                        <Avatar
+                          name={u.name}
+                          src={u.avatarUrl}
+                          size="sm"
+                          presence={statuses[u.id] ?? "offline"}
+                        />
                         <span className="truncate font-semibold text-slate-900">{u.name}</span>
                       </Link>
                     </td>

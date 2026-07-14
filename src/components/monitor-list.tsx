@@ -7,6 +7,7 @@ import { Avatar } from "@/components/ui/avatar";
 import { SearchInput } from "@/components/ui/search-input";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TASK_STATUS } from "@/lib/format";
+import { usePresence } from "@/lib/use-presence";
 import { cn } from "@/lib/utils";
 import type { getMonitorData } from "@/lib/data/monitor";
 
@@ -24,6 +25,7 @@ export function MonitorList({ rows }: { rows: MonitorRow[] }) {
     );
   }, [rows, query]);
 
+  const statuses = usePresence(filtered.map((row) => row.user.id));
   return (
     <div className="space-y-3">
       <SearchInput value={query} onChange={setQuery} placeholder="Cari nama atau jabatan..." />
@@ -40,11 +42,21 @@ export function MonitorList({ rows }: { rows: MonitorRow[] }) {
             {filtered.map(({ user, summary, overdue, activeCount, active }) => (
               <div key={user.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <Avatar name={user.name} src={user.avatarUrl} size="sm" />
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-semibold text-slate-900">{user.name}</p>
-                    <p className="text-xs text-slate-400">{user.position.name}</p>
-                  </div>
+                  <Link
+                    href={`/pengguna/${user.id}`}
+                    className="flex min-w-0 flex-1 items-center gap-3"
+                  >
+                    <Avatar
+                      name={user.name}
+                      src={user.avatarUrl}
+                      size="sm"
+                      presence={statuses[user.id] ?? "offline"}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-semibold text-slate-900">{user.name}</p>
+                      <p className="text-xs text-slate-400">{user.position.name}</p>
+                    </div>
+                  </Link>
                   {overdue > 0 && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2 py-1 text-xs font-bold text-red-700">
                       <AlertTriangle className="h-3.5 w-3.5" /> {overdue}
@@ -104,8 +116,16 @@ export function MonitorList({ rows }: { rows: MonitorRow[] }) {
                     className={cn("align-top", i !== filtered.length - 1 && "border-b border-slate-100")}
                   >
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-2.5">
-                        <Avatar name={user.name} src={user.avatarUrl} size="sm" />
+                      <Link
+                        href={`/pengguna/${user.id}`}
+                        className="flex items-center gap-2.5 hover:text-teal-700"
+                      >
+                        <Avatar
+                          name={user.name}
+                          src={user.avatarUrl}
+                          size="sm"
+                          presence={statuses[user.id] ?? "offline"}
+                        />
                         <div className="min-w-0">
                           <p className="flex items-center gap-1.5 truncate font-semibold text-slate-900">
                             {user.name}
@@ -116,7 +136,7 @@ export function MonitorList({ rows }: { rows: MonitorRow[] }) {
                             )}
                           </p>
                         </div>
-                      </div>
+                      </Link>
                     </td>
                     <td className="px-4 py-3 text-slate-500">{user.position.name}</td>
                     <td className="px-3 py-3 text-center font-semibold text-slate-700">{summary.belum}</td>

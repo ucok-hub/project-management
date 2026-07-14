@@ -13,6 +13,7 @@ import { getTaskById } from "@/lib/data/tasks";
 import { getCommentsForTask } from "@/lib/data/comments";
 import { TaskActions } from "@/components/task-actions";
 import { CommentForm } from "@/components/comment-form";
+import { PresenceAvatar } from "@/components/presence/presence-avatar";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { SetHeaderBack } from "@/components/app-shell/header-back";
@@ -82,8 +83,8 @@ export default async function TaskDetailPage({
 
         {/* Pihak */}
         <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
-          <PartyRow label="Dari" name={task.giver.name} sub={task.giver.position.name} avatarUrl={task.giver.avatarUrl} />
-          <PartyRow label="Untuk" name={task.assignee.name} sub={task.assignee.position.name} avatarUrl={task.assignee.avatarUrl} />
+          <PartyRow label="Dari" userId={task.giverId} name={task.giver.name} sub={task.giver.position.name} avatarUrl={task.giver.avatarUrl} />
+          <PartyRow label="Untuk" userId={task.assigneeId} name={task.assignee.name} sub={task.assignee.position.name} avatarUrl={task.assignee.avatarUrl} />
         </div>
 
         {task.note && (
@@ -156,16 +157,28 @@ export default async function TaskDetailPage({
   );
 }
 
-function PartyRow({ label, name, sub, avatarUrl }: { label: string; name: string; sub: string; avatarUrl: string | null }) {
+function PartyRow({
+  label,
+  userId,
+  name,
+  sub,
+  avatarUrl,
+}: {
+  label: string;
+  userId: string;
+  name: string;
+  sub: string;
+  avatarUrl: string | null;
+}) {
   return (
-    <div className="flex items-center gap-3">
-      <Avatar name={name} src={avatarUrl} size="sm" />
+    <Link href={`/pengguna/${userId}`} className="flex items-center gap-3">
+      <PresenceAvatar userId={userId} name={name} src={avatarUrl} size="sm" />
       <div className="min-w-0">
         <p className="text-xs text-slate-400">{label}</p>
         <p className="truncate font-semibold text-slate-800">
           {name} <span className="font-normal text-slate-400">· {sub}</span>
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

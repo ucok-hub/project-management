@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarClock, FileText, CheckCircle2, Check, X, Clock } from "lucide-react";
 import { requireUser } from "@/lib/auth";
@@ -5,7 +6,7 @@ import { getRequestById, userCanActOnRequest } from "@/lib/data/requests";
 import { getActiveUsers } from "@/lib/data/users";
 import { getAllPositions } from "@/lib/data/positions";
 import { RequestActions } from "@/components/request-actions";
-import { Avatar } from "@/components/ui/avatar";
+import { PresenceAvatar } from "@/components/presence/presence-avatar";
 import { Badge } from "@/components/ui/badge";
 import { SetHeaderBack } from "@/components/app-shell/header-back";
 import { REQUEST_STATUS, formatDeadline, formatDateTime, type RequestStatus } from "@/lib/format";
@@ -71,8 +72,8 @@ export default async function RequestDetailPage({
         </div>
 
         <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
-          <PartyRow label="Peminta" name={req.requester.name} sub={req.requester.position.name} avatarUrl={req.requester.avatarUrl} />
-          <PartyRow label="Diminta" name={req.target.name} sub={req.target.position.name} avatarUrl={req.target.avatarUrl} />
+          <PartyRow label="Peminta" userId={req.requesterId} name={req.requester.name} sub={req.requester.position.name} avatarUrl={req.requester.avatarUrl} />
+          <PartyRow label="Diminta" userId={req.targetId} name={req.target.name} sub={req.target.position.name} avatarUrl={req.target.avatarUrl} />
         </div>
 
         {req.note && (
@@ -159,16 +160,28 @@ function DecisionText({ decision, by }: { decision: string; by?: string | null }
   return <span className="text-slate-400">Menunggu</span>;
 }
 
-function PartyRow({ label, name, sub, avatarUrl }: { label: string; name: string; sub: string; avatarUrl: string | null }) {
+function PartyRow({
+  label,
+  userId,
+  name,
+  sub,
+  avatarUrl,
+}: {
+  label: string;
+  userId: string;
+  name: string;
+  sub: string;
+  avatarUrl: string | null;
+}) {
   return (
-    <div className="flex items-center gap-3">
-      <Avatar name={name} src={avatarUrl} size="sm" />
+    <Link href={`/pengguna/${userId}`} className="flex items-center gap-3">
+      <PresenceAvatar userId={userId} name={name} src={avatarUrl} size="sm" />
       <div className="min-w-0">
         <p className="text-xs text-slate-400">{label}</p>
         <p className="truncate font-semibold text-slate-800">
           {name} <span className="font-normal text-slate-400">· {sub}</span>
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
