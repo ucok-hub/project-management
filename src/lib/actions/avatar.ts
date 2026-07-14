@@ -5,7 +5,11 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { requireUser } from "@/lib/auth";
-import { deleteAvatar, saveAvatar } from "@/lib/avatar-storage";
+import {
+  AvatarStorageConfigurationError,
+  deleteAvatar,
+  saveAvatar,
+} from "@/lib/avatar-storage";
 
 export type AvatarState = { error?: string };
 
@@ -33,13 +37,21 @@ export async function uploadAvatarAction(
     return { error: "Hasil foto harus berupa JPEG yang valid." };
   }
 
-  const previousUrl = me.avatarUrl;
-  const url = await saveAvatar(file);
-  await db.update(users).set({ avatarUrl: url }).where(eq(users.id, me.id));
-  if (previousUrl) await deleteAvatar(previousUrl);
+  try {
+    const previousUrl = me.avatarUrl;
+    const url = await saveAvatar(file);
+    await db.update(users).set({ avatarUrl: url }).where(eq(users.id, me.id));
+    if (previousUrl) await deleteAvatar(previousUrl);
 
-  revalidatePath("/", "layout");
-  return {};
+    revalidatePath("/", "layout");
+    return {};
+  } catch (error) {
+    console.error("Gagal menyimpan foto profil:", error);
+    if (error instanceof AvatarStorageConfigurationError) {
+      return { error: "Penyimpanan foto belum dikonfigurasi. Hubungi admin." };
+    }
+    return { error: "Foto gagal disimpan. Coba lagi." };
+  }
 }
 
 export async function deleteAvatarAction(): Promise<void> {
