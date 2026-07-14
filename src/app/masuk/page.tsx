@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { FlaskConical } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
+import { LoginBackdrop } from "@/components/login-backdrop";
 import { LoginForm } from "@/components/login-form";
 
 export default async function MasukPage() {
@@ -8,8 +9,10 @@ export default async function MasukPage() {
   if (user) redirect("/beranda");
 
   return (
-    <main className="flex min-h-dvh flex-col items-center justify-center bg-gradient-to-b from-teal-50 to-slate-100 px-5 py-10">
-      <div className="w-full max-w-sm">
+    <main className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-teal-50 to-slate-100 px-5 py-10">
+      <LoginBackdrop />
+
+      <div className="relative z-10 w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center text-center">
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-600 text-white shadow-lg shadow-teal-600/30">
             <FlaskConical className="h-9 w-9" />
