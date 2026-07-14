@@ -5,11 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { requireUser } from "@/lib/auth";
-import {
-  AvatarStorageConfigurationError,
-  deleteAvatar,
-  saveAvatar,
-} from "@/lib/avatar-storage";
+import { deleteAvatar, saveAvatar } from "@/lib/avatar-storage";
 
 export type AvatarState = { error?: string };
 
@@ -47,9 +43,6 @@ export async function uploadAvatarAction(
     return {};
   } catch (error) {
     console.error("Gagal menyimpan foto profil:", error);
-    if (error instanceof AvatarStorageConfigurationError) {
-      return { error: "Penyimpanan foto belum dikonfigurasi. Hubungi admin." };
-    }
     return { error: "Foto gagal disimpan. Coba lagi." };
   }
 }
