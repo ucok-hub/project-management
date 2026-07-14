@@ -11,8 +11,17 @@ const MIGRATIONS_FOLDER = "./drizzle";
 
 async function main() {
   const url = process.env.DATABASE_URL;
+  if (process.env.VERCEL) {
+    if (!url) {
+      throw new Error("DATABASE_URL wajib diset di environment Vercel.");
+    }
+    if (!process.env.AUTH_SECRET) {
+      throw new Error("AUTH_SECRET wajib diset di environment Vercel.");
+    }
+  }
+
   if (url) {
-    const client = postgres(url, { max: 1 });
+    const client = postgres(url, { max: 1, prepare: false });
     await migratePg(drizzlePg(client), { migrationsFolder: MIGRATIONS_FOLDER });
     await client.end();
   } else {
