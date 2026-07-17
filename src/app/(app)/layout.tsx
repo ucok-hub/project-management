@@ -2,9 +2,11 @@ import { cookies } from "next/headers";
 import { requireUser } from "@/lib/auth";
 import { getInboxCounts } from "@/lib/data/inbox";
 import { canMonitor } from "@/lib/roles";
+import { getUnseenChangelog } from "@/lib/data/changelogs";
 import { Header } from "@/components/app-shell/header";
 import { BottomNav } from "@/components/app-shell/bottom-nav";
 import { Sidebar } from "@/components/app-shell/sidebar";
+import { ChangelogPopup } from "@/components/app-shell/changelog-popup";
 import { HeaderBackProvider } from "@/components/app-shell/header-back";
 import { SectionTracker } from "@/components/app-shell/section-tracker";
 import { PresenceHeartbeat } from "@/components/app-shell/presence-heartbeat";
@@ -12,10 +14,11 @@ import { isTrackedHubHref, LAST_SECTION_COOKIE } from "@/lib/section-tracker";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser();
-  const [counts, showMonitor, cookieStore] = await Promise.all([
+  const [counts, showMonitor, cookieStore, unseenChangelog] = await Promise.all([
     getInboxCounts(user),
     canMonitor(user),
     cookies(),
+    getUnseenChangelog(user),
   ]);
   const rawLastSection = cookieStore.get(LAST_SECTION_COOKIE)?.value;
   const lastSection = isTrackedHubHref(rawLastSection) ? rawLastSection : null;
@@ -30,6 +33,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           pendingApprovals={counts.pendingApprovals}
           canMonitor={showMonitor}
           lastSection={lastSection}
+          hasUnseenChangelog={!!unseenChangelog}
         />
 
         <div className="mx-auto flex w-full max-w-lg flex-1 flex-col lg:mx-0 lg:max-w-none">
@@ -39,6 +43,14 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </main>
           <BottomNav pendingApprovals={counts.pendingApprovals} lastSection={lastSection} />
         </div>
+
+        {unseenChangelog && (
+          <ChangelogPopup
+            title={unseenChangelog.title}
+            body={unseenChangelog.body}
+            version={unseenChangelog.version}
+          />
+        )}
       </div>
     </HeaderBackProvider>
   );

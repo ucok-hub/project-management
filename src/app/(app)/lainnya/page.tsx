@@ -7,21 +7,27 @@ import {
   User,
   LogOut,
   ChevronRight,
+  Megaphone,
 } from "lucide-react";
 import { requireUser } from "@/lib/auth";
 import { logoutAction } from "@/lib/actions/auth";
 import { canMonitor } from "@/lib/roles";
+import { getUnseenChangelog } from "@/lib/data/changelogs";
 import { SubmitButton } from "@/components/ui/submit-button";
 
 export default async function LainnyaPage() {
   const me = await requireUser();
-  const showMonitor = await canMonitor(me);
+  const [showMonitor, unseenChangelog] = await Promise.all([
+    canMonitor(me),
+    getUnseenChangelog(me),
+  ]);
 
   const items = [
     { href: "/saya-beri", label: "Tugas yang Saya Beri", icon: Send },
     { href: "/permintaan", label: "Papan Permintaan", icon: Inbox },
     ...(showMonitor ? [{ href: "/pantauan", label: "Pantauan", icon: BarChart3 }] : []),
     ...(me.isAdmin ? [{ href: "/admin", label: "Kelola Pengguna", icon: Users }] : []),
+    { href: "/pembaruan", label: "Pembaruan", icon: Megaphone, dot: !!unseenChangelog },
     { href: "/profil", label: "Profil & Password", icon: User },
   ];
 
@@ -30,16 +36,17 @@ export default async function LainnyaPage() {
       <h1 className="text-xl font-bold text-slate-900">Lainnya</h1>
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        {items.map(({ href, label, icon: Icon }, i) => (
+        {items.map((item, i) => (
           <Link
-            key={href}
-            href={href}
+            key={item.href}
+            href={item.href}
             className={cnRow(i === items.length - 1)}
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600">
-              <Icon className="h-5 w-5" />
+              <item.icon className="h-5 w-5" />
             </span>
-            <span className="flex-1 font-semibold text-slate-800">{label}</span>
+            <span className="flex-1 font-semibold text-slate-800">{item.label}</span>
+            {"dot" in item && item.dot && <span className="h-2 w-2 rounded-full bg-red-500" />}
             <ChevronRight className="h-5 w-5 text-slate-300" />
           </Link>
         ))}

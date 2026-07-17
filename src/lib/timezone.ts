@@ -88,3 +88,10 @@ export function daysFromNowJakarta(n: number): Date {
   const key = jakartaDateKey(base);
   return parseJakartaDate(key)!;
 }
+
+/** Pilihan jam per 30 menit ("00:00".."23:30") — untuk dropdown jam deadline. */
+export const TIME_OPTIONS: string[] = Array.from({ length: 48 }, (_, i) => {
+  const h = Math.floor(i / 2);
+  const m = i % 2 === 0 ? "00" : "30";
+  return `${String(h).padStart(2, "0")}:${m}`;
+});

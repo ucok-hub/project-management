@@ -10,6 +10,7 @@ import {
   Users,
   User,
   Bell,
+  Megaphone,
 } from "lucide-react";
 
 export type SearchDestination = {
@@ -58,6 +59,12 @@ export const SEARCH_DESTINATIONS: SearchDestination[] = [
     requires: "admin",
   },
   { href: "/notifikasi", label: "Notifikasi", keywords: ["lonceng", "pemberitahuan", "bell"], icon: Bell },
+  {
+    href: "/pembaruan",
+    label: "Pembaruan",
+    keywords: ["changelog", "update", "riwayat", "versi", "what's new"],
+    icon: Megaphone,
+  },
   {
     href: "/profil",
     label: "Profil & Password",

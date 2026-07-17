@@ -25,6 +25,8 @@ export const users = pgTable("users", {
   avatarUrl: text("avatar_url"),
   isAdmin: boolean("is_admin").notNull().default(false),
   isActive: boolean("is_active").notNull().default(true),
+  isHidden: boolean("is_hidden").notNull().default(false),
+  lastSeenChangelogAt: timestamp("last_seen_changelog_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -128,6 +130,18 @@ export const comments = pgTable("comments", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+/** CHANGELOG — catatan pembaruan aplikasi, diterbitkan lewat panel developer. */
+export const changelogs = pgTable("changelogs", {
+  id: text("id").primaryKey(),
+  version: text("version"),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  publishedById: text("published_by_id")
+    .notNull()
+    .references(() => users.id),
+  publishedAt: timestamp("published_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 /** LAMPIRAN (opsional) pada tugas. */
 export const attachments = pgTable("attachments", {
   id: text("id").primaryKey(),
@@ -215,3 +229,4 @@ export type RequestApproval = typeof requestApprovals.$inferSelect;
 export type Notification = typeof notifications.$inferSelect;
 export type Attachment = typeof attachments.$inferSelect;
 export type Comment = typeof comments.$inferSelect;
+export type Changelog = typeof changelogs.$inferSelect;

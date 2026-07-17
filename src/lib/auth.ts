@@ -87,6 +87,13 @@ export async function requireAdmin(): Promise<CurrentUser> {
   return user;
 }
 
+/** Wajib akun developer tersembunyi; kalau bukan, alihkan ke beranda (rute /dev tidak boleh bocor). */
+export async function requireDev(): Promise<CurrentUser> {
+  const user = await requireUser();
+  if (user.username !== "dev") redirect("/beranda");
+  return user;
+}
+
 /** Verifikasi username + password. */
 export async function verifyCredentials(
   username: string,

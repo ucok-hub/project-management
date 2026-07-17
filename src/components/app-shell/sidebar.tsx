@@ -14,6 +14,7 @@ import {
   User,
   LogOut,
   FlaskConical,
+  Megaphone,
 } from "lucide-react";
 import { logoutAction } from "@/lib/actions/auth";
 import { Avatar } from "@/components/ui/avatar";
@@ -32,11 +33,13 @@ export function Sidebar({
   pendingApprovals,
   canMonitor,
   lastSection,
+  hasUnseenChangelog,
 }: {
   user: CurrentUser;
   pendingApprovals: number;
   canMonitor: boolean;
   lastSection: TrackedHubHref | null;
+  hasUnseenChangelog?: boolean;
 }) {
   const pathname = usePathname();
   const cookieLastSection =
@@ -54,6 +57,12 @@ export function Sidebar({
     { href: "/permintaan", label: "Papan Permintaan", Icon: Inbox },
     ...(canMonitor ? [{ href: "/pantauan", label: "Pantauan", Icon: BarChart3 }] : []),
     ...(user.isAdmin ? [{ href: "/admin", label: "Kelola Pengguna", Icon: Users }] : []),
+    {
+      href: "/pembaruan",
+      label: "Pembaruan",
+      Icon: Megaphone,
+      dot: !!hasUnseenChangelog,
+    },
     { href: "/profil", label: "Profil & Password", Icon: User },
   ];
 
@@ -78,7 +87,10 @@ export function Sidebar({
       </Link>
 
       <nav className="flex-1 space-y-0.5 overflow-y-auto px-3">
-        {items.map(({ href, label, Icon, badge }) => {
+        {items.map((item) => {
+          const { href, label, Icon } = item;
+          const badge = "badge" in item ? item.badge : undefined;
+          const dot = "dot" in item ? item.dot : false;
           const active = isNavItemActive(href, effectivePathname);
           return (
             <Link
@@ -96,6 +108,7 @@ export function Sidebar({
                   {badge > 9 ? "9+" : badge}
                 </span>
               )}
+              {dot && <span className="h-2 w-2 shrink-0 rounded-full bg-red-500" />}
             </Link>
           );
         })}

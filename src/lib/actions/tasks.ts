@@ -30,7 +30,11 @@ export async function createTaskOrRequest(
   const assigneeId = String(formData.get("assigneeId") ?? "");
   const title = String(formData.get("title") ?? "").trim();
   const note = String(formData.get("note") ?? "").trim() || null;
-  const deadline = parseJakartaDate(String(formData.get("deadline") ?? ""));
+  const deadlineTime = String(formData.get("deadlineTime") ?? "").trim();
+  const deadline = parseJakartaDate(
+    String(formData.get("deadline") ?? ""),
+    deadlineTime ? `${deadlineTime}:00` : undefined,
+  );
 
   if (!assigneeId) return { error: "Pilih dulu untuk siapa tugas ini." };
   if (!title) return { error: "Judul tugas belum diisi." };

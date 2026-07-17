@@ -53,21 +53,29 @@ export const REQUEST_STATUS: Record<RequestStatus, { label: string; badge: strin
   dibatalkan: { label: "Dibatalkan", badge: "bg-slate-100 text-slate-600 border-slate-200" },
 };
 
-/** Tanggal batas waktu dalam bahasa manusia (selalu menurut WIB). */
+/** Tanggal + jam batas waktu dalam bahasa manusia (selalu menurut WIB, presisi jam). */
 export function formatDeadline(date: Date | null | undefined): string {
   if (!date) return "Tanpa batas waktu";
-  if (isTodayJakarta(date)) return "Hari ini";
-  if (isTomorrowJakarta(date)) return "Besok";
-  if (isYesterdayJakarta(date)) return "Kemarin";
-  return format(toJakartaWallClock(date), isThisYearJakarta(date) ? "EEE, d MMM" : "d MMM yyyy", {
-    locale: id,
-  });
+  const jam = format(toJakartaWallClock(date), "HH:mm", { locale: id });
+  if (isTodayJakarta(date)) return `Hari ini, ${jam}`;
+  if (isTomorrowJakarta(date)) return `Besok, ${jam}`;
+  if (isYesterdayJakarta(date)) return `Kemarin, ${jam}`;
+  const tgl = format(
+    toJakartaWallClock(date),
+    isThisYearJakarta(date) ? "EEE, d MMM" : "d MMM yyyy",
+    { locale: id },
+  );
+  return `${tgl}, ${jam}`;
 }
 
-/** Apakah tugas melewati batas waktu (dan belum selesai)? Dinilai menurut kalender WIB. */
+/**
+ * Apakah tugas melewati batas waktu (dan belum selesai)? Presisi ke menit —
+ * begitu jam deadline lewat, langsung dianggap lewat waktu (tidak ada
+ * keringanan sampai akhir hari).
+ */
 export function isOverdue(date: Date | null | undefined, status: TaskStatus): boolean {
   if (!date || status === "selesai") return false;
-  return date.getTime() < Date.now() && !isTodayJakarta(date);
+  return date.getTime() < Date.now();
 }
 
 export function formatDateTime(date: Date): string {

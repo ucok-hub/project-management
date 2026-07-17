@@ -6,6 +6,7 @@ import { createTaskOrRequest, type CreateState } from "@/lib/actions/tasks";
 import { Field, Input, Textarea, Select } from "@/components/ui/form";
 import { buttonClass } from "@/components/ui/button";
 import { buildPositionMap, classifyAssignment, computeApprovers } from "@/lib/permissions";
+import { TIME_OPTIONS } from "@/lib/timezone";
 
 type UserLite = {
   id: string;
@@ -121,8 +122,22 @@ export function CreateForm({
         <Textarea id="note" name="note" placeholder="Keterangan tambahan…" maxLength={1000} />
       </Field>
 
-      <Field label="Batas waktu" htmlFor="deadline" hint="Boleh dikosongkan.">
-        <Input id="deadline" name="deadline" type="date" />
+      <Field label="Batas waktu" htmlFor="deadline" hint="Boleh dikosongkan. Jam WIB.">
+        <div className="grid grid-cols-2 gap-2.5">
+          <Input id="deadline" name="deadline" type="date" aria-label="Tanggal batas waktu" />
+          <Select
+            id="deadlineTime"
+            name="deadlineTime"
+            defaultValue="17:00"
+            aria-label="Jam batas waktu"
+          >
+            {TIME_OPTIONS.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </Select>
+        </div>
       </Field>
 
       {state.error && (
