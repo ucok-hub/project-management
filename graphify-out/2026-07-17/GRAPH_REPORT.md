@@ -1,16 +1,16 @@
-# Graph Report - project-management  (2026-07-09)
+# Graph Report - project-management  (2026-07-17)
 
 ## Corpus Check
-- 87 files · ~20,139 words
+- 137 files · ~48,807 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 380 nodes · 969 edges · 24 communities (19 shown, 5 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.8)
+- 609 nodes · 1429 edges · 35 communities (30 shown, 5 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.73)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `578f067a`
+- Built from commit: `8c060301`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,75 +33,85 @@
 - Delta Indonesia Laboratory (DIL) — Manajemen Tugas
 - AGENTS.md
 - vercel.json
+- create-form.tsx
+- Solusi
+- Global Constraints
+- Desain: Nav Highlighting Berbasis Section (Fitur 1/5)
+- Global Constraints
+- Global Constraints
+- Solusi
+- 2026-07-14-presence.md
+- Global Constraints
+- Global Constraints
 
 ## God Nodes (most connected - your core abstractions)
-1. `requireUser()` - 39 edges
-2. `cn()` - 28 edges
-3. `buttonClass()` - 24 edges
-4. `DB` - 19 edges
+1. `requireUser()` - 49 edges
+2. `cn()` - 35 edges
+3. `buttonClass()` - 28 edges
+4. `DB` - 24 edges
 5. `compilerOptions` - 16 edges
-6. `scripts` - 13 edges
-7. `createTaskOrRequest()` - 12 edges
-8. `requireAdmin()` - 12 edges
-9. `getAllPositions` - 12 edges
-10. `formatDeadline()` - 12 edges
+6. `newId()` - 15 edges
+7. `Global Constraints` - 15 edges
+8. `Global Constraints` - 14 edges
+9. `scripts` - 13 edges
+10. `createTaskOrRequest()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ProfilPage()` --calls--> `requireUser()`  [EXTRACTED]
   src/app/(app)/profil/page.tsx → src/lib/auth.ts
 - `BottomNav()` --indirect_call--> `Home()`  [INFERRED]
   src/components/app-shell/bottom-nav.tsx → src/app/page.tsx
-- `AdminPage()` --calls--> `buttonClass()`  [EXTRACTED]
-  src/app/(app)/admin/page.tsx → src/components/ui/button.tsx
-- `BerandaPage()` --calls--> `getInboxCounts`  [EXTRACTED]
-  src/app/(app)/beranda/page.tsx → src/lib/data/inbox.ts
-- `BerandaPage()` --calls--> `toJakartaWallClock()`  [EXTRACTED]
-  src/app/(app)/beranda/page.tsx → src/lib/timezone.ts
+- `Sidebar()` --indirect_call--> `Home()`  [INFERRED]
+  src/components/app-shell/sidebar.tsx → src/app/page.tsx
+- `Sidebar()` --indirect_call--> `User`  [INFERRED]
+  src/components/app-shell/sidebar.tsx → src/db/schema.ts
+- `CreateForm()` --indirect_call--> `createTaskOrRequest()`  [INFERRED]
+  src/components/create-form.tsx → src/lib/actions/tasks.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (24 total, 5 thin omitted)
+## Communities (35 total, 5 thin omitted)
 
 ### Community 0 - "schema.ts"
-Cohesion: 0.06
-Nodes (58): CreateForm(), createDb(), DB, getDb(), globalForDb, Attachment, attachments, attachmentsRelations (+50 more)
+Cohesion: 0.08
+Nodes (44): createDb(), DB, getDb(), globalForDb, Attachment, attachments, attachmentsRelations, Comment (+36 more)
 
 ### Community 1 - "dependencies"
 Cohesion: 0.04
-Nodes (44): dependencies, bcryptjs, clsx, date-fns, drizzle-orm, @electric-sql/pglite, jose, lucide-react (+36 more)
+Nodes (48): dependencies, bcryptjs, clsx, date-fns, drizzle-orm, @electric-sql/pglite, jose, lucide-react (+40 more)
 
 ### Community 2 - "page.tsx"
-Cohesion: 0.10
-Nodes (31): RequestDetailPage(), TaskDetailPage(), RequestActions(), TaskActions(), Badge(), Card(), CardBody(), Textarea() (+23 more)
+Cohesion: 0.11
+Nodes (30): TaskDetailPage(), RequestActions(), TaskActions(), TaskCard(), Badge(), Card(), CardBody(), Textarea() (+22 more)
 
 ### Community 3 - "create-form.tsx"
-Cohesion: 0.18
-Nodes (14): AppLayout(), PantauanPage(), BottomNav(), firstName(), Header(), CurrentUser, getInboxCounts, getMonitorData() (+6 more)
+Cohesion: 0.16
+Nodes (22): AppLayout(), BackButton(), BottomNav(), FeatureSearch(), useHeaderBackContext(), firstName(), Header(), SectionTracker() (+14 more)
 
 ### Community 4 - "auth.ts"
-Cohesion: 0.13
-Nodes (21): GET(), cnRow(), LainnyaPage(), ProfilPage(), MasukPage(), Home(), LoginForm(), Size (+13 more)
+Cohesion: 0.07
+Nodes (38): GET(), cnRow(), LainnyaPage(), NotifikasiPage(), TYPE_STYLE, PantauanPage(), MasukPage(), Home() (+30 more)
 
 ### Community 5 - "requireUser"
-Cohesion: 0.20
-Nodes (22): BerandaPage(), PermintaanPage(), PersetujuanPage(), SayaBeriPage(), TugasSayaPage(), RequestCard(), TaskCard(), buttonClass() (+14 more)
+Cohesion: 0.14
+Nodes (24): BerandaPage(), PermintaanPage(), PersetujuanPage(), SayaBeriPage(), TugasSayaPage(), RequestCard(), RequestList(), TaskList() (+16 more)
 
 ### Community 6 - "admin.ts"
-Cohesion: 0.11
-Nodes (26): UserCreateForm(), PasswordResetForm(), UserData, UserEditForm(), ChangePasswordForm(), PositionLite, Preview, UserLite (+18 more)
+Cohesion: 0.14
+Nodes (24): AdminBaruPage(), BuatPage(), RequestDetailPage(), UserCreateForm(), PasswordResetForm(), UserData, UserEditForm(), BackConfig (+16 more)
 
 ### Community 7 - "compilerOptions"
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 8 - "engine.test.ts"
-Cohesion: 0.17
-Nodes (16): AdminBaruPage(), AdminEditPage(), AdminPage(), BuatPage(), Avatar(), colorFor(), COLORS, initials() (+8 more)
+Cohesion: 0.09
+Nodes (30): AdminEditPage(), AdminPage(), PenggunaDetailPage(), UserList(), UserRow, ACTIVITY_EVENTS, PresenceHeartbeat(), PresenceAvatar() (+22 more)
 
 ### Community 9 - "page.tsx"
-Cohesion: 0.36
-Nodes (7): NotifikasiPage(), TYPE_STYLE, notifications, markAllReadAction(), getNotifications(), markAllNotificationsRead(), timeAgo()
+Cohesion: 0.09
+Nodes (30): ProfilPage(), AvatarActions(), CropModal(), ChangePasswordForm(), CommentForm(), Button(), buttonClass(), ButtonProps (+22 more)
 
 ### Community 10 - "layout.tsx"
 Cohesion: 0.22
@@ -115,8 +125,48 @@ Nodes (3): metadata, viewport, PwaRegister()
 Cohesion: 0.29
 Nodes (6): Aturan bisnis inti (JANGAN ubah tanpa update tes), Delta Indonesia Laboratory (DIL) — Manajemen Tugas, Konvensi, Perintah penting, Stack, Verifikasi
 
+### Community 24 - "create-form.tsx"
+Cohesion: 0.09
+Nodes (27): CreateForm(), PositionLite, Preview, UserLite, main(), CreateState, createAssignment(), TestDB (+19 more)
+
+### Community 25 - "Solusi"
+Cohesion: 0.09
+Nodes (20): Desain: Foto Profil (Upload, Crop, Kompresi, Hapus) (Fitur 3/5), Di Luar Cakupan, Flow upload, Hapus foto, Masalah, Perubahan Data & Komponen, Solusi, Storage: Vercel Blob (prod) / disk lokal (dev) (+12 more)
+
+### Community 26 - "Global Constraints"
+Cohesion: 0.13
+Nodes (15): Global Constraints, Task 10: Kelola Pengguna list (`admin/user-list.tsx`) — live dot, Task 11: Detail Tugas & Detail Permintaan — live dot + profile link, Task 12: `/admin/[id]` — status text + live dot, Task 13: New `/pengguna/[id]` profile-view page, Task 14: Manual end-to-end verification, Task 1: `presence` table, Task 2: Pure presence-resolution logic (+7 more)
+
+### Community 27 - "Desain: Nav Highlighting Berbasis Section (Fitur 1/5)"
+Cohesion: 0.13
+Nodes (13): Cakupan Perubahan, Desain: Nav Highlighting Berbasis Section (Fitur 1/5), Di Luar Cakupan, Masalah, Solusi, Cakupan halaman, Cakupan Perubahan, Desain: Tombol Kembali ke View Sebelumnya (Fitur 2/5) (+5 more)
+
+### Community 28 - "Global Constraints"
+Cohesion: 0.14
+Nodes (14): Global Constraints, Task 10: Add back button to `/notifikasi`, Task 11: Add back button to `/buat`, Task 12: Remove `BackLink` and verify, Task 13: Manual end-to-end verification, Task 1: Extend `section-tracker` with the has-navigated flag, Task 2: `HeaderBackProvider` context + `SetHeaderBack`, Task 3: `BackButton` component (+6 more)
+
+### Community 29 - "Global Constraints"
+Cohesion: 0.18
+Nodes (11): Global Constraints, Task 10: Manual end-to-end verification, Task 1: Add `avatarUrl` column, Task 2: Install dependencies and configure storage env, Task 3: Storage abstraction + local dev serving route, Task 4: Crop + compress canvas helper, Task 5: `Avatar` gains an optional `src` prop, Task 6: Wire `src` through every existing `Avatar` render (+3 more)
+
+### Community 30 - "Solusi"
+Cohesion: 0.18
+Nodes (10): Animasi, Cakupan Perubahan, Desain: Redesign Halaman Login — Background Carousel Skeleton (Fitur 5/5), Di Luar Cakupan, Isi kartu skeleton, Masalah, Mobile, Opacity & keterbacaan (+2 more)
+
+### Community 31 - "2026-07-14-presence.md"
+Cohesion: 0.25
+Nodes (4): Foto Profil (Upload, Crop, Kompresi, Hapus) Implementation Plan, Nav Highlighting (Section-Aware Active State) Implementation Plan, Presence (Online/Idle/Offline & Last Seen) Implementation Plan, Tombol Kembali (Header Back Button) Implementation Plan
+
+### Community 32 - "Global Constraints"
+Cohesion: 0.25
+Nodes (8): Global Constraints, Task 1: Section-tracker pure utilities, Task 2: Extract `resolveTaskDefaultSection` and use it in the task detail page, Task 3: Client component that writes the last-section cookie, Task 4: Wire the cookie into the `(app)` layout, Task 5: Use effective pathname in `Sidebar`, Task 6: Use effective pathname in `BottomNav`, Task 7: Manual end-to-end verification
+
+### Community 33 - "Global Constraints"
+Cohesion: 0.29
+Nodes (6): Global Constraints, Login Redesign — Background Skeleton Carousel Implementation Plan, Task 1: Marquee keyframes in `globals.css`, Task 2: `LoginBackdrop` component, Task 3: Wire it into `/masuk`, Task 4: Manual verification
+
 ## Knowledge Gaps
-- **124 isolated node(s):** `eslintConfig`, `nextConfig`, `name`, `version`, `private` (+119 more)
+- **231 isolated node(s):** `eslintConfig`, `nextConfig`, `name`, `version`, `private` (+226 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -124,16 +174,16 @@ Nodes (6): Aturan bisnis inti (JANGAN ubah tanpa update tes), Delta Indonesia La
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `requireUser()` connect `requireUser` to `schema.ts`, `page.tsx`, `create-form.tsx`, `auth.ts`, `admin.ts`, `engine.test.ts`, `page.tsx`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
-- **Why does `cn()` connect `page.tsx` to `schema.ts`, `create-form.tsx`, `requireUser`, `admin.ts`, `engine.test.ts`, `page.tsx`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
-- **Why does `buttonClass()` connect `requireUser` to `schema.ts`, `page.tsx`, `auth.ts`, `admin.ts`, `engine.test.ts`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+  _High betweenness centrality (0.047) - this node is a cross-community bridge._
+- **Why does `cn()` connect `page.tsx` to `create-form.tsx`, `auth.ts`, `requireUser`, `admin.ts`, `engine.test.ts`, `page.tsx`?**
+  _High betweenness centrality (0.029) - this node is a cross-community bridge._
+- **Why does `buttonClass()` connect `page.tsx` to `page.tsx`, `auth.ts`, `requireUser`, `admin.ts`, `engine.test.ts`, `create-form.tsx`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **What connects `eslintConfig`, `nextConfig`, `name` to the rest of the system?**
-  _124 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _231 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `schema.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.05824561403508772 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07514124293785311 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
 - **Should `page.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.10404040404040404 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10909090909090909 - nodes in this community are weakly interconnected._

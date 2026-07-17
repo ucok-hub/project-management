@@ -1,16 +1,16 @@
 # Graph Report - project-management  (2026-07-17)
 
 ## Corpus Check
-- 137 files · ~48,807 words
+- 149 files · ~52,958 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 609 nodes · 1429 edges · 35 communities (30 shown, 5 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.73)
+- 647 nodes · 1572 edges · 36 communities (31 shown, 5 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 18 edges (avg confidence: 0.73)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8c060301`
+- Built from commit: `459983c0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -43,75 +43,76 @@
 - 2026-07-14-presence.md
 - Global Constraints
 - Global Constraints
+- feature-search.tsx
 
 ## God Nodes (most connected - your core abstractions)
-1. `requireUser()` - 49 edges
+1. `requireUser()` - 54 edges
 2. `cn()` - 35 edges
 3. `buttonClass()` - 28 edges
-4. `DB` - 24 edges
-5. `compilerOptions` - 16 edges
-6. `newId()` - 15 edges
+4. `DB` - 28 edges
+5. `newId()` - 17 edges
+6. `compilerOptions` - 16 edges
 7. `Global Constraints` - 15 edges
 8. `Global Constraints` - 14 edges
 9. `scripts` - 13 edges
-10. `createTaskOrRequest()` - 12 edges
+10. `Avatar()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `ProfilPage()` --calls--> `requireUser()`  [EXTRACTED]
   src/app/(app)/profil/page.tsx → src/lib/auth.ts
-- `BottomNav()` --indirect_call--> `Home()`  [INFERRED]
-  src/components/app-shell/bottom-nav.tsx → src/app/page.tsx
-- `Sidebar()` --indirect_call--> `Home()`  [INFERRED]
-  src/components/app-shell/sidebar.tsx → src/app/page.tsx
+- `MasukPage()` --calls--> `getCurrentUser`  [EXTRACTED]
+  src/app/masuk/page.tsx → src/lib/auth.ts
 - `Sidebar()` --indirect_call--> `User`  [INFERRED]
   src/components/app-shell/sidebar.tsx → src/db/schema.ts
 - `CreateForm()` --indirect_call--> `createTaskOrRequest()`  [INFERRED]
   src/components/create-form.tsx → src/lib/actions/tasks.ts
+- `ChangelogPublishForm()` --indirect_call--> `publishChangelog()`  [INFERRED]
+  src/components/dev/changelog-publish-form.tsx → src/lib/actions/changelogs.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (35 total, 5 thin omitted)
+## Communities (36 total, 5 thin omitted)
 
 ### Community 0 - "schema.ts"
-Cohesion: 0.08
-Nodes (44): createDb(), DB, getDb(), globalForDb, Attachment, attachments, attachmentsRelations, Comment (+36 more)
+Cohesion: 0.06
+Nodes (56): RequestActions(), createDb(), DB, getDb(), globalForDb, Attachment, attachments, attachmentsRelations (+48 more)
 
 ### Community 1 - "dependencies"
 Cohesion: 0.04
 Nodes (48): dependencies, bcryptjs, clsx, date-fns, drizzle-orm, @electric-sql/pglite, jose, lucide-react (+40 more)
 
 ### Community 2 - "page.tsx"
-Cohesion: 0.11
-Nodes (30): TaskDetailPage(), RequestActions(), TaskActions(), TaskCard(), Badge(), Card(), CardBody(), Textarea() (+22 more)
+Cohesion: 0.09
+Nodes (25): GET(), TaskDetailPage(), DevPanelPage(), CommentForm(), LoginAsList(), Row, formatCell(), SqlConsole() (+17 more)
 
 ### Community 3 - "create-form.tsx"
-Cohesion: 0.16
-Nodes (22): AppLayout(), BackButton(), BottomNav(), FeatureSearch(), useHeaderBackContext(), firstName(), Header(), SectionTracker() (+14 more)
+Cohesion: 0.09
+Nodes (38): AppLayout(), Home(), BackButton(), BottomNav(), ChangelogPopup(), useHeaderBackContext(), firstName(), Header() (+30 more)
 
 ### Community 4 - "auth.ts"
-Cohesion: 0.07
-Nodes (38): GET(), cnRow(), LainnyaPage(), NotifikasiPage(), TYPE_STYLE, PantauanPage(), MasukPage(), Home() (+30 more)
+Cohesion: 0.17
+Nodes (6): MasukPage(), CardTemplate, LoginBackdrop(), ROW_1, ROW_2, ROW_3
 
 ### Community 5 - "requireUser"
-Cohesion: 0.14
-Nodes (24): BerandaPage(), PermintaanPage(), PersetujuanPage(), SayaBeriPage(), TugasSayaPage(), RequestCard(), RequestList(), TaskList() (+16 more)
+Cohesion: 0.09
+Nodes (41): BerandaPage(), PembaruanPage(), PermintaanPage(), PersetujuanPage(), SayaBeriPage(), TugasSayaPage(), RequestCard(), RequestList() (+33 more)
 
 ### Community 6 - "admin.ts"
-Cohesion: 0.14
-Nodes (24): AdminBaruPage(), BuatPage(), RequestDetailPage(), UserCreateForm(), PasswordResetForm(), UserData, UserEditForm(), BackConfig (+16 more)
+Cohesion: 0.08
+Nodes (38): ProfilPage(), UserCreateForm(), PasswordResetForm(), UserData, UserEditForm(), AvatarActions(), ChangePasswordForm(), PositionLite (+30 more)
 
 ### Community 7 - "compilerOptions"
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 8 - "engine.test.ts"
-Cohesion: 0.09
-Nodes (30): AdminEditPage(), AdminPage(), PenggunaDetailPage(), UserList(), UserRow, ACTIVITY_EVENTS, PresenceHeartbeat(), PresenceAvatar() (+22 more)
+Cohesion: 0.07
+Nodes (45): AdminBaruPage(), AdminEditPage(), AdminPage(), BuatPage(), NotifikasiPage(), TYPE_STYLE, PenggunaDetailPage(), RequestDetailPage() (+37 more)
 
 ### Community 9 - "page.tsx"
-Cohesion: 0.09
-Nodes (30): ProfilPage(), AvatarActions(), CropModal(), ChangePasswordForm(), CommentForm(), Button(), buttonClass(), ButtonProps (+22 more)
+Cohesion: 0.22
+Nodes (13): CropModal(), AvatarState, deleteAvatarAction(), isJpeg(), uploadAvatarAction(), deleteAvatar(), saveAvatar(), usesRemoteStorage() (+5 more)
 
 ### Community 10 - "layout.tsx"
 Cohesion: 0.22
@@ -126,8 +127,8 @@ Cohesion: 0.29
 Nodes (6): Aturan bisnis inti (JANGAN ubah tanpa update tes), Delta Indonesia Laboratory (DIL) — Manajemen Tugas, Konvensi, Perintah penting, Stack, Verifikasi
 
 ### Community 24 - "create-form.tsx"
-Cohesion: 0.09
-Nodes (27): CreateForm(), PositionLite, Preview, UserLite, main(), CreateState, createAssignment(), TestDB (+19 more)
+Cohesion: 0.11
+Nodes (28): cnRow(), LainnyaPage(), PantauanPage(), CreateForm(), User, main(), CurrentUser, getLatestChangelog() (+20 more)
 
 ### Community 25 - "Solusi"
 Cohesion: 0.09
@@ -165,25 +166,29 @@ Nodes (8): Global Constraints, Task 1: Section-tracker pure utilities, Task 2: E
 Cohesion: 0.29
 Nodes (6): Global Constraints, Login Redesign — Background Skeleton Carousel Implementation Plan, Task 1: Marquee keyframes in `globals.css`, Task 2: `LoginBackdrop` component, Task 3: Wire it into `/masuk`, Task 4: Manual verification
 
+### Community 35 - "feature-search.tsx"
+Cohesion: 0.47
+Nodes (4): FeatureSearch(), SEARCH_DESTINATIONS, SearchDestination, searchDestinations()
+
 ## Knowledge Gaps
-- **231 isolated node(s):** `eslintConfig`, `nextConfig`, `name`, `version`, `private` (+226 more)
+- **233 isolated node(s):** `eslintConfig`, `nextConfig`, `name`, `version`, `private` (+228 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `requireUser()` connect `requireUser` to `schema.ts`, `page.tsx`, `create-form.tsx`, `auth.ts`, `admin.ts`, `engine.test.ts`, `page.tsx`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
-- **Why does `cn()` connect `page.tsx` to `create-form.tsx`, `auth.ts`, `requireUser`, `admin.ts`, `engine.test.ts`, `page.tsx`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
-- **Why does `buttonClass()` connect `page.tsx` to `page.tsx`, `auth.ts`, `requireUser`, `admin.ts`, `engine.test.ts`, `create-form.tsx`?**
-  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+- **Why does `requireUser()` connect `engine.test.ts` to `schema.ts`, `page.tsx`, `create-form.tsx`, `requireUser`, `admin.ts`, `page.tsx`, `create-form.tsx`?**
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `cn()` connect `create-form.tsx` to `engine.test.ts`, `page.tsx`, `requireUser`, `admin.ts`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `buttonClass()` connect `admin.ts` to `page.tsx`, `create-form.tsx`, `requireUser`, `engine.test.ts`, `page.tsx`, `create-form.tsx`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
 - **What connects `eslintConfig`, `nextConfig`, `name` to the rest of the system?**
-  _231 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _233 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `schema.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.07514124293785311 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06315789473684211 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
 - **Should `page.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.10909090909090909 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09446693657219973 - nodes in this community are weakly interconnected._
